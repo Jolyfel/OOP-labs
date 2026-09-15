@@ -8,3 +8,10 @@ private:
 public:
 
 };
+
+class Clothing {
+private:
+
+public:
+
+};
