@@ -4,14 +4,14 @@
 
 class Order {
 private:
-
+	double price;
 public:
 
 };
 
 class Clothing {
 private:
-
+	
 public:
 
 };
