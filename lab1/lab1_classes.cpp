@@ -2,16 +2,5 @@
 агрегация, композиция, наследование) по предметной области «Магазин одежды». 
 Функционал программы должен позволить собрать данные о заказе. */
 
-class Order {
-private:
-	double price;
-public:
-
-};
-
-class Clothing {
-private:
-	
-public:
-
-};
+#include <iostream>
+#include "l1_class_header.h"
