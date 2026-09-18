@@ -129,6 +129,9 @@
   <ItemGroup>
     <ClInclude Include="l1_class_header.h" />
   </ItemGroup>
+  <ItemGroup>
+    <Text Include="lab1_file.txt" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
