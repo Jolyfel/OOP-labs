@@ -2,6 +2,7 @@
 #include <fstream>
 #include <iomanip>
 #include <windows.h>
+#include <string>
 #include "l1_class_header.h"
 #define FILE_NAME "lab1_file.txt"
 
@@ -107,11 +108,11 @@ int main() {
             string name, phone, address;
             int card_id;
 
-            cout << "Введите имя: ";
+            cout << "Введите имя: ";        
             getline(cin, name);
-            cout << "Введите телефон: "; 
+            cout << "Введите телефон: ";    
             getline(cin, phone);
-            cout << "Введите адрес: ";   
+            cout << "Введите адрес: ";      
             getline(cin, address);
             cout << "Введите номер карты: "; 
             cin >> card_id;
@@ -128,20 +129,20 @@ int main() {
                 cout << "Выберите номер товара (Выход - 0): ";
                 int item_idx; cin >> item_idx;
 
-                if (item_idx > 0 && item_idx <= shop.get_catalog_count()) {
-                    order.add_item(shop.get_catalog_item(item_idx - 1));
-                    shop.get_catalog_item(item_idx - 1)->set_quantity(shop.get_catalog_item(item_idx - 1)->get_quantity() - 1);
-                    cout << "Товар добавлен.\n";
-                }
-
-                else if (item_idx == 0) {
+                if (item_idx == 0) {
                     break;
                 }
-
-                else if (shop.get_catalog_item(item_idx - 1)->get_quantity() == 0) {
-                    cout << "Товара нет на складе.\n";
+                else if (item_idx > 0 && item_idx <= shop.get_catalog_count()) {
+                    Clothing* item = shop.get_catalog_item(item_idx - 1);
+                    if (item->get_quantity() > 0) {
+                        order.add_item(item);
+                        item->set_quantity(item->get_quantity() - 1);
+                        cout << "Товар добавлен.\n";
+                    }
+                    else {
+                        cout << "Товара нет на складе.\n";
+                    }
                 }
-
                 else {
                     cout << "Неверный номер.\n";
                 }
@@ -157,7 +158,9 @@ int main() {
                     << order.calculate_total() << endl;
                 cout.unsetf(ios::fixed);
             }
-            else cout << "Заказ пуст. Отмена";
+            else {
+                cout << "Заказ пуст. Отмена";
+            }
 
             system("pause");
             break;
