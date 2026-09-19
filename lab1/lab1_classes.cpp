@@ -283,6 +283,29 @@ void Shop::show_orders(ostream& os) {
     }
 }
 
+void Shop::sort_catalog_by_price(bool sort_flag) {
+    for (int i = 0; i < catalog_count - 1; ++i) {
+        for (int j = 0; j < catalog_count - i - 1; ++j) {
+            if (sort_flag) {
+                if (catalog[j]->get_price() > catalog[j + 1]->get_price()) {
+                    Clothing* temp = catalog[j];
+                    catalog[j] = catalog[j + 1];
+                    catalog[j + 1] = temp;
+                    sort_flag = false;
+                }
+            }
+            else {
+                if (catalog[j]->get_price() < catalog[j + 1]->get_price()) {
+                    Clothing* temp = catalog[j];
+                    catalog[j] = catalog[j + 1];
+                    catalog[j + 1] = temp;
+                    sort_flag = true;
+                }
+            }
+        }
+    }
+}
+
 bool Shop::save_all_to_file(const string& filename) {
     ofstream out(filename);
     if (!out) return false;

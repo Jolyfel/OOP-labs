@@ -152,6 +152,7 @@ public:
     void find_item(const string& name);
     void show_catalog(ostream& os);
     void show_orders(ostream& os);
+    void sort_catalog_by_price(bool sort_flag);
     bool save_all_to_file(const string& filename);
 
     void set_shop_name(const string& name) { shop_name = name; }

@@ -27,9 +27,18 @@ Clothing* create_clothing_from_input() {
     cout << "Цвет: ";      
     getline(cin, color);
     cout << "Цена: ";      
-    cin >> price;
+    while (!(cin >> price)) {
+        cin.clear();
+        cin.ignore(10000, '\n');
+        cout << "Неверный ввод. Введите целое число: ";
+    }
+    cin.ignore(10000, '\n');
     cout << "Количество: "; 
-    cin >> quantity;
+    while (!(cin >> quantity)) {
+        cin.clear();
+        cin.ignore(10000, '\n');
+        cout << "Неверный ввод. Введите целое число: ";
+    }
     cin.ignore(10000, '\n');
 
     if (type == 1) {
@@ -83,6 +92,7 @@ int main() {
     shop.add_to_catalog(new Shirt("Рубашка", "H&M", "M", "Белый", 2500, 20, "Длинный"));
 
     int choice = 0;
+    bool sort_default = true;
 
     do {
         system("cls");
@@ -93,6 +103,7 @@ int main() {
         cout << "4. Изменить название магазина\n";
         cout << "5. Управление каталогом\n";
         cout << "6. Управление заказом\n";
+        cout << "7. Сортировать по цене\n";
         cout << "0. Сохранить и выйти\n";
         cout << "=========================================\n\n";
         cout << "Ваш выбор: ";
@@ -115,7 +126,12 @@ int main() {
             cout << "Введите адрес: ";      
             getline(cin, address);
             cout << "Введите номер карты: "; 
-            cin >> card_id;
+            while (!(cin >> card_id)) {
+                cin.clear();
+                cin.ignore(10000, '\n');
+                cout << "Неверный ввод. Введите целое число: ";
+            }
+            cin.ignore(10000, '\n');
 
             Customer customer(name, phone, address, card_id);
             shop.add_order(customer);
@@ -335,6 +351,15 @@ int main() {
                     system("pause");
                 }
             } while (sub != 0);
+            break;
+        }
+
+        case 7: {
+            system("cls");
+            shop.sort_catalog_by_price(sort_default);
+            cout << "Каталог отсортирован по цене (по возрастанию).\n\n";
+            shop.show_catalog(cout);
+            system("pause");
             break;
         }
 
