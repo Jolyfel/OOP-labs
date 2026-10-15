@@ -7,66 +7,69 @@
 
 using namespace std;
 
-Clothing* create_clothing_from_input() {
+Service* create_service_from_input() {
     int type;
-    cout << "Тип: 1-Куртка 2-Брюки 3-Рубашка: ";
+    cout << "Тип: 1-Диагностика 2-ТО 3-Ремонт: ";
     cin >> type;
     cin.ignore(10000, '\n');
 
-    string name, brand, size, color, extra;
+    string name, category, duration, complexity, extra;
     double price;
-    int quantity;
+    int slots;
 
-    cout << "Название: ";  
+    cout << "Название: ";
     getline(cin, name);
-    cout << "Бренд: ";     
-    getline(cin, brand);
-    cout << "Размер: ";    
-    getline(cin, size);
-    cout << "Цвет: ";      
-    getline(cin, color);
-    cout << "Цена: ";      
+    cout << "Категория: ";
+    getline(cin, category);
+    cout << "Длительность: ";
+    getline(cin, duration);
+    cout << "Сложность: ";
+    getline(cin, complexity);
+    cout << "Цена: ";
     cin >> price;
-    cout << "Количество: "; 
-    cin >> quantity;
+    cout << "Количество мест: ";
+    cin >> slots;
     cin.ignore(10000, '\n');
 
     if (type == 1) {
-        cout << "Сезон: "; getline(cin, extra);
-        return new Jacket(name, brand, size, color, price, quantity, extra);
+        cout << "Оборудование: "; getline(cin, extra);
+        return new Diagnostics(name, category, duration, complexity, price, slots, extra);
     }
     else if (type == 2) {
-        cout << "Посадка: "; getline(cin, extra);
-        return new Trousers(name, brand, size, color, price, quantity, extra);
+        cout << "Интервал: "; getline(cin, extra);
+        return new Maintenance(name, category, duration, complexity, price, slots, extra);
     }
     else {
-        cout << "Тип рукава: "; getline(cin, extra);
-        return new Shirt(name, brand, size, color, price, quantity, extra);
+        cout << "Тип детали: "; getline(cin, extra);
+        return new Repair(name, category, duration, complexity, price, slots, extra);
     }
 }
 
-void edit_clothing_fields(Clothing* item) {
+void edit_service_fields(Service* item) {
     cout << "Что редактировать?\n";
-    cout << "1. Название\n2. Бренд\n3. Размер\n4. Цвет\n5. Цену\n6. Количество\n";
+    cout << "1. Название\n2. Категория\n3. Длительность\n4. Сложность\n5. Цену\n6. Количество мест\n";
     cout << "0. Отмена\n";
     cout << "Выбор: ";
     int c; cin >> c; cin.ignore(10000, '\n');
 
     string s; double p; int q;
     switch (c) {
-    case 1: cout << "Новое название: "; 
+    case 1: cout << "Новое название: ";
         getline(cin, s); item->set_name(s); break;
-    case 2: cout << "Новый бренд: ";    
-        getline(cin, s); item->set_brand(s); break;
-    case 3: cout << "Новый размер: ";   
-        getline(cin, s); item->set_size(s); break;
-    case 4: cout << "Новый цвет: ";     
-        getline(cin, s); item->set_color(s); break;
-    case 5: cout << "Новая цена: ";     
-        cin >> p; cin.ignore(10000, '\n'); item->set_price(p); break;
-    case 6: cout << "Новое кол-во: ";   
-        cin >> q; cin.ignore(10000, '\n'); item->set_quantity(q); break;
-    default: cout << "Отмена.\n"; 
+    case 2: cout << "Новая категория: ";
+        getline(cin, s); item->set_category(s); break;
+    case 3: cout << "Новая длительность: ";
+        getline(cin, s); item->set_duration(s); break;
+    case 4: cout << "Новая сложность: ";
+        getline(cin, s); item->set_complexity(s); break;
+    case 5: cout << "Новая цена: ";
+        cin >> p; 
+        cin.ignore(10000, '\n'); item->set_price(p); break;
+    case 6: cout << "Новое кол-во мест: ";
+        cin >> q; 
+        cin.ignore(10000, '\n'); item->set_slots(q); break;
+    default: 
+        cout << "Отмена.\n";
         break;
     }
 }
@@ -75,25 +78,25 @@ int main() {
     SetConsoleCP(1251);
     SetConsoleOutputCP(1251);
 
-    Shop shop("Одежда/by");
+    ServiceStation station("СТО АвтоМастер");
 
-    shop.add_to_catalog(new Jacket("Зимняя куртка", "Nike", "L", "Черный", 12000, 5, "Зима"));
-    shop.add_to_catalog(new Trousers("Джинсы", "Levi's", "32", "Синий", 5000, 10, "Regular"));
-    shop.add_to_catalog(new Shirt("Рубашка", "H&M", "M", "Белый", 2500, 20, "Длинный"));
+    station.add_to_catalog(new Diagnostics("Комп. диагностика", "Электрика", "30 мин", "Средняя", 1500, 3, "Сканер OBD-II"));
+    station.add_to_catalog(new Maintenance("Замена масла", "Двигатель", "40 мин", "Низкая", 2500, 5, "каждые 10 000 км"));
+    station.add_to_catalog(new Repair("Замена колодок", "Тормозная сист.", "1 час", "Средняя", 3000, 4, "колодки"));
 
     int choice = 0;
 
     do {
         system("cls");
-        cout << "==========Меню магазина одежды===========\n";
-        cout << "1. Сделать заказ\n";
-        cout << "2. Просмотреть каталог\n";
-        cout << "3. Просмотреть информацию о заказах\n";
-        cout << "4. Изменить название магазина\n";
-        cout << "5. Управление каталогом\n";
-        cout << "6. Управление заказом\n";
+        cout << "==========СТО: АвтоМастер===========\n";
+        cout << "1. Оформить заказ-наряд\n";
+        cout << "2. Просмотреть каталог услуг\n";
+        cout << "3. Просмотреть информацию о заказ-нарядах\n";
+        cout << "4. Изменить название СТО\n";
+        cout << "5. Управление каталогом услуг\n";
+        cout << "6. Управление заказ-нарядом\n";
         cout << "0. Сохранить и выйти\n";
-        cout << "=========================================\n\n";
+        cout << "====================================\n\n";
         cout << "Ваш выбор: ";
 
         cin >> choice;
@@ -105,41 +108,41 @@ int main() {
             cin.ignore(10000, '\n');
 
             string name, phone, address;
-            int card_id;
+            int car_number;
 
-            cout << "Введите имя: ";
+            cout << "Введите ФИО владельца: ";
             getline(cin, name);
-            cout << "Введите телефон: "; 
+            cout << "Введите телефон: ";
             getline(cin, phone);
-            cout << "Введите адрес: ";   
+            cout << "Введите адрес: ";
             getline(cin, address);
-            cout << "Введите номер карты: "; 
-            cin >> card_id;
+            cout << "Введите номер автомобиля: ";
+            cin >> car_number;
 
-            Customer customer(name, phone, address, card_id);
-            shop.add_order(customer);
+            CarOwner owner(name, phone, address, car_number);
+            station.add_order(owner);
 
-            int order_idx = shop.get_orders_count() - 1;
-            Order& order = shop.get_order(order_idx);
+            int order_idx = station.get_orders_count() - 1;
+            RepairOrder& order = station.get_order(order_idx);
 
             char more = 'y';
             while (more == 'y' || more == 'Y') {
-                shop.show_catalog(cout);
-                cout << "Выберите номер товара (Выход - 0): ";
+                station.show_catalog(cout);
+                cout << "Выберите номер услуги (Выход - 0): ";
                 int item_idx; cin >> item_idx;
 
-                if (item_idx > 0 && item_idx <= shop.get_catalog_count()) {
-                    order.add_item(shop.get_catalog_item(item_idx - 1));
-                    shop.get_catalog_item(item_idx - 1)->set_quantity(shop.get_catalog_item(item_idx - 1)->get_quantity() - 1);
-                    cout << "Товар добавлен.\n";
+                if (item_idx > 0 && item_idx <= station.get_catalog_count() && station.get_catalog_item(item_idx - 1)->get_slots() > 0) {
+                    order.add_service(station.get_catalog_item(item_idx - 1));
+                    station.get_catalog_item(item_idx - 1)->set_slots(station.get_catalog_item(item_idx - 1)->get_slots() - 1);
+                    cout << "Услуга добавлена.\n";
                 }
 
                 else if (item_idx == 0) {
                     break;
                 }
 
-                else if (shop.get_catalog_item(item_idx - 1)->get_quantity() == 0) {
-                    cout << "Товара нет на складе.\n";
+                else if (station.get_catalog_item(item_idx - 1)->get_slots() == 0) {
+                    cout << "Свободных мест нет.\n";
                 }
 
                 else {
@@ -153,11 +156,11 @@ int main() {
             order.calculate_total();
             if (order.calculate_total() > 0) {
                 cout.setf(ios::fixed, ios::floatfield);
-                cout << setprecision(2) << "Заказ оформлен. Итоговая сумма: "
+                cout << setprecision(2) << "Заказ-наряд оформлен. Итоговая сумма: "
                     << order.calculate_total() << endl;
                 cout.unsetf(ios::fixed);
             }
-            else cout << "Заказ пуст. Отмена";
+            else cout << "Заказ-наряд пуст. Отмена";
 
             system("pause");
             break;
@@ -165,14 +168,14 @@ int main() {
 
         case 2: {
             system("cls");
-            shop.show_catalog(cout);
+            station.show_catalog(cout);
             system("pause");
             break;
         }
 
         case 3: {
             system("cls");
-            shop.show_orders(cout);
+            station.show_orders(cout);
             system("pause");
             break;
         }
@@ -180,11 +183,11 @@ int main() {
         case 4: {
             system("cls");
             cin.ignore(10000, '\n');
-            string shopName;
-            cout << "Введите название магазина: ";
-            getline(cin, shopName);
-            shop.set_shop_name(shopName);
-            cout << "Название магазина обновлено.\n";
+            string stationName;
+            cout << "Введите название СТО: ";
+            getline(cin, stationName);
+            station.set_station_name(stationName);
+            cout << "Название СТО обновлено.\n";
             system("pause");
             break;
         }
@@ -193,10 +196,10 @@ int main() {
             int sub = 0;
             do {
                 system("cls");
-                cout << "---Управление каталогом---\n";
-                cout << "1. Добавить товар\n";
-                cout << "2. Редактировать товар\n";
-                cout << "3. Удалить товар\n";
+                cout << "---Управление каталогом услуг---\n";
+                cout << "1. Добавить услугу\n";
+                cout << "2. Редактировать услугу\n";
+                cout << "3. Удалить услугу\n";
                 cout << "0. Назад\n";
                 cout << "Выбор: ";
                 cin >> sub;
@@ -205,21 +208,21 @@ int main() {
                 if (sub == 1) {
                     system("cls");
                     cin.ignore(10000, '\n');
-                    Clothing* item = create_clothing_from_input();
-                    shop.add_to_catalog(item);
-                    cout << "Товар добавлен в каталог.\n";
+                    Service* item = create_service_from_input();
+                    station.add_to_catalog(item);
+                    cout << "Услуга добавлена в каталог.\n";
                     system("pause");
                 }
                 else if (sub == 2) {
                     system("cls");
-                    shop.show_catalog(cout);
-                    if (shop.get_catalog_count() == 0) { system("pause"); continue; }
-                    cout << "Введите номер товара для редактирования: ";
+                    station.show_catalog(cout);
+                    if (station.get_catalog_count() == 0) { system("pause"); continue; }
+                    cout << "Введите номер услуги для редактирования: ";
                     int idx; cin >> idx;
                     cin.ignore(10000, '\n');
-                    if (idx > 0 && idx <= shop.get_catalog_count()) {
-                        edit_clothing_fields(shop.get_catalog_item(idx - 1));
-                        cout << "Товар изменён.\n";
+                    if (idx > 0 && idx <= station.get_catalog_count()) {
+                        edit_service_fields(station.get_catalog_item(idx - 1));
+                        cout << "Услуга изменена.\n";
                     }
                     else {
                         cout << "Неверный номер.\n";
@@ -228,13 +231,13 @@ int main() {
                 }
                 else if (sub == 3) {
                     system("cls");
-                    shop.show_catalog(cout);
-                    if (shop.get_catalog_count() == 0) { system("pause"); continue; }
-                    cout << "Введите номер товара для удаления: ";
+                    station.show_catalog(cout);
+                    if (station.get_catalog_count() == 0) { system("pause"); continue; }
+                    cout << "Введите номер услуги для удаления: ";
                     int idx; cin >> idx;
-                    if (idx > 0 && idx <= shop.get_catalog_count()) {
-                        shop.remove_from_catalog(idx - 1);
-                        cout << "Товар удалён.\n";
+                    if (idx > 0 && idx <= station.get_catalog_count()) {
+                        station.remove_from_catalog(idx - 1);
+                        cout << "Услуга удалена.\n";
                     }
                     else {
                         cout << "Неверный номер.\n";
@@ -247,29 +250,29 @@ int main() {
 
         case 6: {
             system("cls");
-            if (shop.get_orders_count() == 0) {
-                cout << "Заказов нет.\n";
+            if (station.get_orders_count() == 0) {
+                cout << "Заказ-нарядов нет.\n";
                 system("pause");
                 break;
             }
-            shop.show_orders(cout);
-            cout << "Введите номер заказа: ";
+            station.show_orders(cout);
+            cout << "Введите номер заказ-наряда: ";
             int order_idx; cin >> order_idx;
-            if (order_idx < 1 || order_idx > shop.get_orders_count()) {
+            if (order_idx < 1 || order_idx > station.get_orders_count()) {
                 cout << "Неверный номер.\n";
                 system("pause");
                 break;
             }
-            Order& order = shop.get_order(order_idx - 1);
+            RepairOrder& order = station.get_order(order_idx - 1);
 
             int sub = 0;
             do {
                 system("cls");
-                cout << "---Управление заказом №" << order_idx << "---\n";
+                cout << "---Управление заказ-нарядом №" << order_idx << "---\n";
                 order.print_receipt(cout);
-                cout << "\n1. Добавить товар в заказ\n";
-                cout << "2. Редактировать товар в заказе\n";
-                cout << "3. Удалить товар из заказа\n";
+                cout << "\n1. Добавить услугу в заказ-наряд\n";
+                cout << "2. Редактировать услугу в заказ-наряде\n";
+                cout << "3. Удалить услугу из заказ-наряда\n";
                 cout << "0. Назад\n";
                 cout << "Выбор: ";
                 cin >> sub;
@@ -277,14 +280,14 @@ int main() {
 
                 if (sub == 1) {
                     system("cls");
-                    shop.show_catalog(cout);
-                    if (shop.get_catalog_count() == 0) { system("pause"); continue; }
-                    cout << "Введите номер товара: ";
+                    station.show_catalog(cout);
+                    if (station.get_catalog_count() == 0) { system("pause"); continue; }
+                    cout << "Введите номер услуги: ";
                     int idx; cin >> idx;
-                    if (idx > 0 && idx <= shop.get_catalog_count()) {
-                        order.add_item(shop.get_catalog_item(idx - 1));
+                    if (idx > 0 && idx <= station.get_catalog_count()) {
+                        order.add_service(station.get_catalog_item(idx - 1));
                         order.calculate_total();
-                        cout << "Товар добавлен в заказ.\n";
+                        cout << "Услуга добавлена в заказ-наряд.\n";
                     }
                     else {
                         cout << "Неверный номер.\n";
@@ -294,20 +297,20 @@ int main() {
                 else if (sub == 2) {
                     system("cls");
                     order.print_receipt(cout);
-                    if (order.get_item_count() == 0) { system("pause"); continue; }
-                    cout << "Введите номер позиции заказа для редактирования: ";
+                    if (order.get_service_count() == 0) { system("pause"); continue; }
+                    cout << "Введите номер позиции заказ-наряда для редактирования: ";
                     int idx; cin >> idx;
-                    if (idx > 0 && idx <= order.get_item_count()) {
-                        shop.show_catalog(cout);
-                        cout << "Введите номер нового товара из каталога: ";
+                    if (idx > 0 && idx <= order.get_service_count()) {
+                        station.show_catalog(cout);
+                        cout << "Введите номер новой услуги из каталога: ";
                         int new_idx; cin >> new_idx;
-                        if (new_idx > 0 && new_idx <= shop.get_catalog_count()) {
-                            order.edit_item(idx - 1, shop.get_catalog_item(new_idx - 1));
+                        if (new_idx > 0 && new_idx <= station.get_catalog_count()) {
+                            order.edit_service(idx - 1, station.get_catalog_item(new_idx - 1));
                             order.calculate_total();
-                            cout << "Позиция заказа обновлена.\n";
+                            cout << "Позиция заказ-наряда обновлена.\n";
                         }
                         else {
-                            cout << "Неверный номер товара.\n";
+                            cout << "Неверный номер услуги.\n";
                         }
                     }
                     else {
@@ -318,11 +321,11 @@ int main() {
                 else if (sub == 3) {
                     system("cls");
                     order.print_receipt(cout);
-                    if (order.get_item_count() == 0) { system("pause"); continue; }
+                    if (order.get_service_count() == 0) { system("pause"); continue; }
                     cout << "Введите номер позиции для удаления: ";
                     int idx; cin >> idx;
-                    if (idx > 0 && idx <= order.get_item_count()) {
-                        order.remove_item(idx - 1);
+                    if (idx > 0 && idx <= order.get_service_count()) {
+                        order.remove_service(idx - 1);
                         order.calculate_total();
                         cout << "Позиция удалена.\n";
                     }
@@ -337,7 +340,7 @@ int main() {
 
         case 0: {
             system("cls");
-            if (shop.save_all_to_file(FILE_NAME))
+            if (station.save_all_to_file(FILE_NAME))
                 cout << "Данные сохранены в " << FILE_NAME << endl;
             else
                 cout << "Ошибка сохранения.\n";
