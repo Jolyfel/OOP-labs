@@ -1,0 +1,59 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="CarOwner">
+    <Position X="5.5" Y="1" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAQAAAAAAAAAABAAEAAAAAAIIAAAAAIACAAAAAAA=</HashCode>
+      <FileName>l1_class_header.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="RepairOrder">
+    <Position X="9" Y="1" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AEAQAAAAABEAggCACAIgAAwAAAAAAwAgACAAAICAAAA=</HashCode>
+      <FileName>l1_class_header.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Service">
+    <Position X="3.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AABDACIgAAACAAAQBAAAQAAFAAAEQAAAAAiIaIAAABA=</HashCode>
+      <FileName>l1_class_header.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Diagnostics">
+    <Position X="1.25" Y="0.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAABEAAAAIABAAAQAAAAAAEAAAAAABAAAAAAAA=</HashCode>
+      <FileName>l1_class_header.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Maintenance">
+    <Position X="1.25" Y="3.75" Width="1.5" />
+    <InheritanceLine Type="Service" ManuallyRouted="true" FixedFromPoint="true">
+      <Path>
+        <Point X="3.25" Y="4.438" />
+        <Point X="2.75" Y="4.438" />
+      </Path>
+    </InheritanceLine>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAABAAEABAAAQACAAAAAEAAAAAACAAAAAAA=</HashCode>
+      <FileName>l1_class_header.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Repair">
+    <Position X="5.25" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAACACAAAAAAAICBAAAQAAAACAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>l1_class_header.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ServiceStation">
+    <Position X="7.25" Y="1" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AABAAQIBACBAAAKgAgEQAAAAAAEAYgAKAAgAAAAIAIA=</HashCode>
+      <FileName>l1_class_header.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
