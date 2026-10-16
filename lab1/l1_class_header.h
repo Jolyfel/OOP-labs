@@ -1,165 +1,167 @@
 #pragma once
-#include <iostream>
+#include <iostream> 
+#include <string>
+#include <fstream>
 
 using namespace std;
 
-class Clothing;
+class Service;
 
-class Customer {
+class CarOwner {
 private:
-    string name;
+    string full_name;
     string phone_number;
     string address;
-    int card_id;
+    int car_number;
 
 public:
-    Customer();
-    Customer(string name, string phone_number, string address, int card_id);
+    CarOwner();
+    CarOwner(string full_name, string phone_number, string address, int car_number);
     void print_info(ostream& os);
-    ~Customer();
+    ~CarOwner();
 };
 
-class Order {
+class RepairOrder {
 private:
-    Customer customer;
-    Clothing** items;
+    CarOwner owner;
+    Service** services;
     string order_date;
     int order_id;
     double total_price;
-    int item_count;
+    int service_count;
     int capacity;
 
 public:
-    Order();
-    Order(Customer customer, string order_date, int order_id);
-    ~Order();
+    RepairOrder();
+    RepairOrder(CarOwner owner, string order_date, int order_id);
+    ~RepairOrder();
 
-    void add_item(Clothing* item);
-    void remove_item(int index);
-    void edit_item(int index, Clothing* new_item);
+    void add_service(Service* service);
+    void remove_service(int index);
+    void edit_service(int index, Service* new_service);
     double calculate_total();
     void print_receipt(ostream& os);
     bool save_to_file(const string& filename);
     void clear();
 
-    int get_item_count() const { return item_count; }
-    Clothing* get_item(int index) const { return items[index]; }
+    int get_service_count() const { return service_count; }
+    Service* get_service(int index) const { return services[index]; }
 };
 
-class Clothing {
+class Service {
 protected:
     string name;
-    string brand;
-    string size;
-    string color;
+    string category;
+    string duration;
+    string complexity;
     double price;
-    int quantity;
+    int slots;
 
 public:
-    Clothing();
-    Clothing(string name, string brand, string size, string color, double price, int quantity);
+    Service();
+    Service(string name, string category, string duration, string complexity, double price, int slots);
 
     virtual void print_info();
-    virtual string get_category() = 0;
-    virtual ~Clothing();
+    virtual string get_type() = 0;
+    virtual ~Service();
 
     string get_name() const { return name; }
-    string get_brand() const { return brand; }
-    string get_size() const { return size; }
-    string get_color() const { return color; }
+    string get_category() const { return category; }
+    string get_duration() const { return duration; }
+    string get_complexity() const { return complexity; }
     double get_price() const { return price; }
-    int get_quantity() const { return quantity; }
+    int get_slots() const { return slots; }
 
     void set_name(const string& set) { name = set; }
-    void set_brand(const string& set) { brand = set; }
-    void set_size(const string& set) { size = set; }
-    void set_color(const string& set) { color = set; }
+    void set_category(const string& set) { category = set; }
+    void set_duration(const string& set) { duration = set; }
+    void set_complexity(const string& set) { complexity = set; }
     void set_price(double set) { price = set; }
-    void set_quantity(int set) { quantity = set; }
+    void set_slots(int set) { slots = set; }
 };
 
-class Jacket : public Clothing {
+class Diagnostics : public Service {
 private:
-    string season;
+    string equipment;
 
 public:
-    Jacket();
-    Jacket(string name, string brand, string size, string color,
-        double price, int quantity, string season);
+    Diagnostics();
+    Diagnostics(string name, string category, string duration, string complexity,
+        double price, int slots, string equipment);
 
     void print_info() override;
-    string get_category() override;
-    ~Jacket();
+    string get_type() override;
+    ~Diagnostics();
 
-    string get_season() const { return season; }
-    void set_season(const string& v) { season = v; }
+    string get_equipment() const { return equipment; }
+    void set_equipment(const string& v) { equipment = v; }
 };
 
-class Trousers : public Clothing {
+class Maintenance : public Service {
 private:
-    string fit;
+    string interval;
 
 public:
-    Trousers();
-    Trousers(string name, string brand, string size, string color,
-        double price, int quantity, string fit);
+    Maintenance();
+    Maintenance(string name, string category, string duration, string complexity,
+        double price, int slots, string interval);
 
     void print_info() override;
-    string get_category() override;
-    ~Trousers();
+    string get_type() override;
+    ~Maintenance();
 
-    string get_fit() const { return fit; }
-    void set_fit(const string& v) { fit = v; }
+    string get_interval() const { return interval; }
+    void set_interval(const string& v) { interval = v; }
 };
 
-class Shirt : public Clothing {
+class Repair : public Service {
 private:
-    string sleeve_type;
+    string part_type;
 
 public:
-    Shirt();
-    Shirt(string name, string brand, string size, string color,
-        double price, int quantity, string sleeve_type);
+    Repair();
+    Repair(string name, string category, string duration, string complexity,
+        double price, int slots, string part_type);
 
     void print_info() override;
-    string get_category() override;
-    ~Shirt();
+    string get_type() override;
+    ~Repair();
 
-    string get_sleeve_type() const { return sleeve_type; }
-    void set_sleeve_type(const string& v) { sleeve_type = v; }
+    string get_part_type() const { return part_type; }
+    void set_part_type(const string& v) { part_type = v; }
 };
 
-class Shop {
+class ServiceStation {
 private:
-    string shop_name;
-    Clothing** catalog;
-    Order** orders;
+    string station_name;
+    Service** catalog;
+    RepairOrder** orders;
     int catalog_count;
     int catalog_capacity;
     int orders_count;
     int orders_capacity;
 
 public:
-    Shop();
-    Shop(string shop_name);
-    ~Shop();
+    ServiceStation();
+    ServiceStation(string station_name);
+    ~ServiceStation();
 
-    void add_to_catalog(Clothing* item);
+    void add_to_catalog(Service* service);
     void remove_from_catalog(int index);
-    void edit_catalog_item(int index, Clothing* newItem);
+    void edit_catalog_item(int index, Service* new_service);
 
-    void add_order(const Customer& customer);
+    void add_order(const CarOwner& owner);
     void find_item(const string& name);
     void show_catalog(ostream& os);
     void show_orders(ostream& os);
     void sort_catalog_by_price(bool sort_flag);
     bool save_all_to_file(const string& filename);
 
-    void set_shop_name(const string& name) { shop_name = name; }
+    void set_station_name(const string& name) { station_name = name; }
 
     int get_catalog_count() const { return catalog_count; }
-    Clothing* get_catalog_item(int index) const { return catalog[index]; }
+    Service* get_catalog_item(int index) const { return catalog[index]; }
 
     int get_orders_count() const { return orders_count; }
-    Order& get_order(int index) const { return *orders[index]; }
+    RepairOrder& get_order(int index) const { return *orders[index]; }
 };

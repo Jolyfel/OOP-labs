@@ -1,82 +1,75 @@
-#include <iostream>
+ï»¿#include <iostream>
 #include <fstream>
 #include <iomanip>
 #include <windows.h>
-#include <string>
 #include "l1_class_header.h"
 #define FILE_NAME "lab1_file.txt"
 
 using namespace std;
 
-Clothing* create_clothing_from_input() {
+Service* create_service_from_input() {
     int type;
-    cout << "Òèï: 1-Êóðòêà 2-Áðþêè 3-Ðóáàøêà: ";
+    cout << "Ð¢Ð¸Ð¿: 1-Ð”Ð¸Ð°Ð³Ð½Ð¾ÑÑ‚Ð¸ÐºÐ° 2-Ð¢Ðž 3-Ð ÐµÐ¼Ð¾Ð½Ñ‚: ";
     cin >> type;
     cin.ignore(10000, '\n');
 
-    string name, brand, size, color, extra;
+    string name, category, duration, complexity, extra;
     double price;
-    int quantity;
+    int slots;
 
-    cout << "Íàçâàíèå: ";  
+    cout << "ÐÐ°Ð·Ð²Ð°Ð½Ð¸Ðµ: ";
     getline(cin, name);
-    cout << "Áðåíä: ";     
-    getline(cin, brand);
-    cout << "Ðàçìåð: ";    
-    getline(cin, size);
-    cout << "Öâåò: ";      
-    getline(cin, color);
-    cout << "Öåíà: ";      
-    while (!(cin >> price)) {
-        cin.clear();
-        cin.ignore(10000, '\n');
-        cout << "Íåâåðíûé ââîä. Ââåäèòå öåëîå ÷èñëî: ";
-    }
-    cin.ignore(10000, '\n');
-    cout << "Êîëè÷åñòâî: "; 
-    while (!(cin >> quantity)) {
-        cin.clear();
-        cin.ignore(10000, '\n');
-        cout << "Íåâåðíûé ââîä. Ââåäèòå öåëîå ÷èñëî: ";
-    }
+    cout << "ÐšÐ°Ñ‚ÐµÐ³Ð¾Ñ€Ð¸Ñ: ";
+    getline(cin, category);
+    cout << "Ð”Ð»Ð¸Ñ‚ÐµÐ»ÑŒÐ½Ð¾ÑÑ‚ÑŒ: ";
+    getline(cin, duration);
+    cout << "Ð¡Ð»Ð¾Ð¶Ð½Ð¾ÑÑ‚ÑŒ: ";
+    getline(cin, complexity);
+    cout << "Ð¦ÐµÐ½Ð°: ";
+    cin >> price;
+    cout << "ÐšÐ¾Ð»Ð¸Ñ‡ÐµÑÑ‚Ð²Ð¾ Ð¼ÐµÑÑ‚: ";
+    cin >> slots;
     cin.ignore(10000, '\n');
 
     if (type == 1) {
-        cout << "Ñåçîí: "; getline(cin, extra);
-        return new Jacket(name, brand, size, color, price, quantity, extra);
+        cout << "ÐžÐ±Ð¾Ñ€ÑƒÐ´Ð¾Ð²Ð°Ð½Ð¸Ðµ: "; getline(cin, extra);
+        return new Diagnostics(name, category, duration, complexity, price, slots, extra);
     }
     else if (type == 2) {
-        cout << "Ïîñàäêà: "; getline(cin, extra);
-        return new Trousers(name, brand, size, color, price, quantity, extra);
+        cout << "Ð˜Ð½Ñ‚ÐµÑ€Ð²Ð°Ð»: "; getline(cin, extra);
+        return new Maintenance(name, category, duration, complexity, price, slots, extra);
     }
     else {
-        cout << "Òèï ðóêàâà: "; getline(cin, extra);
-        return new Shirt(name, brand, size, color, price, quantity, extra);
+        cout << "Ð¢Ð¸Ð¿ Ð´ÐµÑ‚Ð°Ð»Ð¸: "; getline(cin, extra);
+        return new Repair(name, category, duration, complexity, price, slots, extra);
     }
 }
 
-void edit_clothing_fields(Clothing* item) {
-    cout << "×òî ðåäàêòèðîâàòü?\n";
-    cout << "1. Íàçâàíèå\n2. Áðåíä\n3. Ðàçìåð\n4. Öâåò\n5. Öåíó\n6. Êîëè÷åñòâî\n";
-    cout << "0. Îòìåíà\n";
-    cout << "Âûáîð: ";
+void edit_service_fields(Service* item) {
+    cout << "Ð§Ñ‚Ð¾ Ñ€ÐµÐ´Ð°ÐºÑ‚Ð¸Ñ€Ð¾Ð²Ð°Ñ‚ÑŒ?\n";
+    cout << "1. ÐÐ°Ð·Ð²Ð°Ð½Ð¸Ðµ\n2. ÐšÐ°Ñ‚ÐµÐ³Ð¾Ñ€Ð¸Ñ\n3. Ð”Ð»Ð¸Ñ‚ÐµÐ»ÑŒÐ½Ð¾ÑÑ‚ÑŒ\n4. Ð¡Ð»Ð¾Ð¶Ð½Ð¾ÑÑ‚ÑŒ\n5. Ð¦ÐµÐ½Ñƒ\n6. ÐšÐ¾Ð»Ð¸Ñ‡ÐµÑÑ‚Ð²Ð¾ Ð¼ÐµÑÑ‚\n";
+    cout << "0. ÐžÑ‚Ð¼ÐµÐ½Ð°\n";
+    cout << "Ð’Ñ‹Ð±Ð¾Ñ€: ";
     int c; cin >> c; cin.ignore(10000, '\n');
 
     string s; double p; int q;
     switch (c) {
-    case 1: cout << "Íîâîå íàçâàíèå: "; 
+    case 1: cout << "ÐÐ¾Ð²Ð¾Ðµ Ð½Ð°Ð·Ð²Ð°Ð½Ð¸Ðµ: ";
         getline(cin, s); item->set_name(s); break;
-    case 2: cout << "Íîâûé áðåíä: ";    
-        getline(cin, s); item->set_brand(s); break;
-    case 3: cout << "Íîâûé ðàçìåð: ";   
-        getline(cin, s); item->set_size(s); break;
-    case 4: cout << "Íîâûé öâåò: ";     
-        getline(cin, s); item->set_color(s); break;
-    case 5: cout << "Íîâàÿ öåíà: ";     
-        cin >> p; cin.ignore(10000, '\n'); item->set_price(p); break;
-    case 6: cout << "Íîâîå êîë-âî: ";   
-        cin >> q; cin.ignore(10000, '\n'); item->set_quantity(q); break;
-    default: cout << "Îòìåíà.\n"; 
+    case 2: cout << "ÐÐ¾Ð²Ð°Ñ ÐºÐ°Ñ‚ÐµÐ³Ð¾Ñ€Ð¸Ñ: ";
+        getline(cin, s); item->set_category(s); break;
+    case 3: cout << "ÐÐ¾Ð²Ð°Ñ Ð´Ð»Ð¸Ñ‚ÐµÐ»ÑŒÐ½Ð¾ÑÑ‚ÑŒ: ";
+        getline(cin, s); item->set_duration(s); break;
+    case 4: cout << "ÐÐ¾Ð²Ð°Ñ ÑÐ»Ð¾Ð¶Ð½Ð¾ÑÑ‚ÑŒ: ";
+        getline(cin, s); item->set_complexity(s); break;
+    case 5: cout << "ÐÐ¾Ð²Ð°Ñ Ñ†ÐµÐ½Ð°: ";
+        cin >> p;
+        cin.ignore(10000, '\n'); item->set_price(p); break;
+    case 6: cout << "ÐÐ¾Ð²Ð¾Ðµ ÐºÐ¾Ð»-Ð²Ð¾ Ð¼ÐµÑÑ‚: ";
+        cin >> q;
+        cin.ignore(10000, '\n'); item->set_slots(q); break;
+    default:
+        cout << "ÐžÑ‚Ð¼ÐµÐ½Ð°.\n";
         break;
     }
 }
@@ -85,28 +78,26 @@ int main() {
     SetConsoleCP(1251);
     SetConsoleOutputCP(1251);
 
-    Shop shop("Îäåæäà/by");
+    ServiceStation station("Ð¡Ð¢Ðž ÐÐ²Ñ‚Ð¾ÐœÐ°ÑÑ‚ÐµÑ€");
 
-    shop.add_to_catalog(new Jacket("Çèìíÿÿ êóðòêà", "Nike", "L", "×åðíûé", 12000, 5, "Çèìà"));
-    shop.add_to_catalog(new Trousers("Äæèíñû", "Levi's", "32", "Ñèíèé", 5000, 10, "Regular"));
-    shop.add_to_catalog(new Shirt("Ðóáàøêà", "H&M", "M", "Áåëûé", 2500, 20, "Äëèííûé"));
+    station.add_to_catalog(new Diagnostics("ÐšÐ¾Ð¼Ð¿. Ð´Ð¸Ð°Ð³Ð½Ð¾ÑÑ‚Ð¸ÐºÐ°", "Ð­Ð»ÐµÐºÑ‚Ñ€Ð¸ÐºÐ°", "30 Ð¼Ð¸Ð½", "Ð¡Ñ€ÐµÐ´Ð½ÑÑ", 1500, 3, "Ð¡ÐºÐ°Ð½ÐµÑ€ OBD-II"));
+    station.add_to_catalog(new Maintenance("Ð—Ð°Ð¼ÐµÐ½Ð° Ð¼Ð°ÑÐ»Ð°", "Ð”Ð²Ð¸Ð³Ð°Ñ‚ÐµÐ»ÑŒ", "40 Ð¼Ð¸Ð½", "ÐÐ¸Ð·ÐºÐ°Ñ", 2500, 5, "ÐºÐ°Ð¶Ð´Ñ‹Ðµ 10 000 ÐºÐ¼"));
+    station.add_to_catalog(new Repair("Ð—Ð°Ð¼ÐµÐ½Ð° ÐºÐ¾Ð»Ð¾Ð´Ð¾Ðº", "Ð¢Ð¾Ñ€Ð¼Ð¾Ð·Ð½Ð°Ñ ÑÐ¸ÑÑ‚.", "1 Ñ‡Ð°Ñ", "Ð¡Ñ€ÐµÐ´Ð½ÑÑ", 3000, 4, "ÐºÐ¾Ð»Ð¾Ð´ÐºÐ¸"));
 
     int choice = 0;
-    bool sort_default = true;
 
     do {
         system("cls");
-        cout << "==========Ìåíþ ìàãàçèíà îäåæäû===========\n";
-        cout << "1. Ñäåëàòü çàêàç\n";
-        cout << "2. Ïðîñìîòðåòü êàòàëîã\n";
-        cout << "3. Ïðîñìîòðåòü èíôîðìàöèþ î çàêàçàõ\n";
-        cout << "4. Èçìåíèòü íàçâàíèå ìàãàçèíà\n";
-        cout << "5. Óïðàâëåíèå êàòàëîãîì\n";
-        cout << "6. Óïðàâëåíèå çàêàçîì\n";
-        cout << "7. Ñîðòèðîâàòü ïî öåíå\n";
-        cout << "0. Ñîõðàíèòü è âûéòè\n";
-        cout << "=========================================\n\n";
-        cout << "Âàø âûáîð: ";
+        cout << "==========Ð¡Ð¢Ðž: ÐÐ²Ñ‚Ð¾ÐœÐ°ÑÑ‚ÐµÑ€===========\n";
+        cout << "1. ÐžÑ„Ð¾Ñ€Ð¼Ð¸Ñ‚ÑŒ Ð·Ð°ÐºÐ°Ð·-Ð½Ð°Ñ€ÑÐ´\n";
+        cout << "2. ÐŸÑ€Ð¾ÑÐ¼Ð¾Ñ‚Ñ€ÐµÑ‚ÑŒ ÐºÐ°Ñ‚Ð°Ð»Ð¾Ð³ ÑƒÑÐ»ÑƒÐ³\n";
+        cout << "3. ÐŸÑ€Ð¾ÑÐ¼Ð¾Ñ‚Ñ€ÐµÑ‚ÑŒ Ð¸Ð½Ñ„Ð¾Ñ€Ð¼Ð°Ñ†Ð¸ÑŽ Ð¾ Ð·Ð°ÐºÐ°Ð·-Ð½Ð°Ñ€ÑÐ´Ð°Ñ…\n";
+        cout << "4. Ð˜Ð·Ð¼ÐµÐ½Ð¸Ñ‚ÑŒ Ð½Ð°Ð·Ð²Ð°Ð½Ð¸Ðµ Ð¡Ð¢Ðž\n";
+        cout << "5. Ð£Ð¿Ñ€Ð°Ð²Ð»ÐµÐ½Ð¸Ðµ ÐºÐ°Ñ‚Ð°Ð»Ð¾Ð³Ð¾Ð¼ ÑƒÑÐ»ÑƒÐ³\n";
+        cout << "6. Ð£Ð¿Ñ€Ð°Ð²Ð»ÐµÐ½Ð¸Ðµ Ð·Ð°ÐºÐ°Ð·-Ð½Ð°Ñ€ÑÐ´Ð¾Ð¼\n";
+        cout << "0. Ð¡Ð¾Ñ…Ñ€Ð°Ð½Ð¸Ñ‚ÑŒ Ð¸ Ð²Ñ‹Ð¹Ñ‚Ð¸\n";
+        cout << "====================================\n\n";
+        cout << "Ð’Ð°Ñˆ Ð²Ñ‹Ð±Ð¾Ñ€: ";
 
         cin >> choice;
         if (cin.fail()) { cin.clear(); cin.ignore(10000, '\n'); choice = -1; }
@@ -117,66 +108,59 @@ int main() {
             cin.ignore(10000, '\n');
 
             string name, phone, address;
-            int card_id;
+            int car_number;
 
-            cout << "Ââåäèòå èìÿ: ";        
+            cout << "Ð’Ð²ÐµÐ´Ð¸Ñ‚Ðµ Ð¤Ð˜Ðž Ð²Ð»Ð°Ð´ÐµÐ»ÑŒÑ†Ð°: ";
             getline(cin, name);
-            cout << "Ââåäèòå òåëåôîí: ";    
+            cout << "Ð’Ð²ÐµÐ´Ð¸Ñ‚Ðµ Ñ‚ÐµÐ»ÐµÑ„Ð¾Ð½: ";
             getline(cin, phone);
-            cout << "Ââåäèòå àäðåñ: ";      
+            cout << "Ð’Ð²ÐµÐ´Ð¸Ñ‚Ðµ Ð°Ð´Ñ€ÐµÑ: ";
             getline(cin, address);
-            cout << "Ââåäèòå íîìåð êàðòû: "; 
-            while (!(cin >> card_id)) {
-                cin.clear();
-                cin.ignore(10000, '\n');
-                cout << "Íåâåðíûé ââîä. Ââåäèòå öåëîå ÷èñëî: ";
-            }
-            cin.ignore(10000, '\n');
+            cout << "Ð’Ð²ÐµÐ´Ð¸Ñ‚Ðµ Ð½Ð¾Ð¼ÐµÑ€ Ð°Ð²Ñ‚Ð¾Ð¼Ð¾Ð±Ð¸Ð»Ñ: ";
+            cin >> car_number;
 
-            Customer customer(name, phone, address, card_id);
-            shop.add_order(customer);
+            CarOwner owner(name, phone, address, car_number);
+            station.add_order(owner);
 
-            int order_idx = shop.get_orders_count() - 1;
-            Order& order = shop.get_order(order_idx);
+            int order_idx = station.get_orders_count() - 1;
+            RepairOrder& order = station.get_order(order_idx);
 
             char more = 'y';
             while (more == 'y' || more == 'Y') {
-                shop.show_catalog(cout);
-                cout << "Âûáåðèòå íîìåð òîâàðà (Âûõîä - 0): ";
+                station.show_catalog(cout);
+                cout << "Ð’Ñ‹Ð±ÐµÑ€Ð¸Ñ‚Ðµ Ð½Ð¾Ð¼ÐµÑ€ ÑƒÑÐ»ÑƒÐ³Ð¸ (Ð’Ñ‹Ñ…Ð¾Ð´ - 0): ";
                 int item_idx; cin >> item_idx;
 
-                if (item_idx == 0) {
-                    break;
-                }
-                else if (item_idx > 0 && item_idx <= shop.get_catalog_count()) {
-                    Clothing* item = shop.get_catalog_item(item_idx - 1);
-                    if (item->get_quantity() > 0) {
-                        order.add_item(item);
-                        item->set_quantity(item->get_quantity() - 1);
-                        cout << "Òîâàð äîáàâëåí.\n";
-                    }
-                    else {
-                        cout << "Òîâàðà íåò íà ñêëàäå.\n";
-                    }
-                }
-                else {
-                    cout << "Íåâåðíûé íîìåð.\n";
+                if (item_idx > 0 && item_idx <= station.get_catalog_count() && station.get_catalog_item(item_idx - 1)->get_slots() > 0) {
+                    order.add_service(station.get_catalog_item(item_idx - 1));
+                    station.get_catalog_item(item_idx - 1)->set_slots(station.get_catalog_item(item_idx - 1)->get_slots() - 1);
+                    cout << "Ð£ÑÐ»ÑƒÐ³Ð° Ð´Ð¾Ð±Ð°Ð²Ð»ÐµÐ½Ð°.\n";
                 }
 
-                cout << "Äîáàâèòü åù¸? (y/n): ";
+                else if (item_idx == 0) {
+                    break;
+                }
+
+                else if (station.get_catalog_item(item_idx - 1)->get_slots() == 0) {
+                    cout << "Ð¡Ð²Ð¾Ð±Ð¾Ð´Ð½Ñ‹Ñ… Ð¼ÐµÑÑ‚ Ð½ÐµÑ‚.\n";
+                }
+
+                else {
+                    cout << "ÐÐµÐ²ÐµÑ€Ð½Ñ‹Ð¹ Ð½Ð¾Ð¼ÐµÑ€.\n";
+                }
+
+                cout << "Ð”Ð¾Ð±Ð°Ð²Ð¸Ñ‚ÑŒ ÐµÑ‰Ñ‘? (y/n): ";
                 cin >> more;
             }
 
             order.calculate_total();
             if (order.calculate_total() > 0) {
                 cout.setf(ios::fixed, ios::floatfield);
-                cout << setprecision(2) << "Çàêàç îôîðìëåí. Èòîãîâàÿ ñóììà: "
+                cout << setprecision(2) << "Ð—Ð°ÐºÐ°Ð·-Ð½Ð°Ñ€ÑÐ´ Ð¾Ñ„Ð¾Ñ€Ð¼Ð»ÐµÐ½. Ð˜Ñ‚Ð¾Ð³Ð¾Ð²Ð°Ñ ÑÑƒÐ¼Ð¼Ð°: "
                     << order.calculate_total() << endl;
                 cout.unsetf(ios::fixed);
             }
-            else {
-                cout << "Çàêàç ïóñò. Îòìåíà";
-            }
+            else cout << "Ð—Ð°ÐºÐ°Ð·-Ð½Ð°Ñ€ÑÐ´ Ð¿ÑƒÑÑ‚. ÐžÑ‚Ð¼ÐµÐ½Ð°";
 
             system("pause");
             break;
@@ -184,14 +168,14 @@ int main() {
 
         case 2: {
             system("cls");
-            shop.show_catalog(cout);
+            station.show_catalog(cout);
             system("pause");
             break;
         }
 
         case 3: {
             system("cls");
-            shop.show_orders(cout);
+            station.show_orders(cout);
             system("pause");
             break;
         }
@@ -199,11 +183,11 @@ int main() {
         case 4: {
             system("cls");
             cin.ignore(10000, '\n');
-            string shopName;
-            cout << "Ââåäèòå íàçâàíèå ìàãàçèíà: ";
-            getline(cin, shopName);
-            shop.set_shop_name(shopName);
-            cout << "Íàçâàíèå ìàãàçèíà îáíîâëåíî.\n";
+            string stationName;
+            cout << "Ð’Ð²ÐµÐ´Ð¸Ñ‚Ðµ Ð½Ð°Ð·Ð²Ð°Ð½Ð¸Ðµ Ð¡Ð¢Ðž: ";
+            getline(cin, stationName);
+            station.set_station_name(stationName);
+            cout << "ÐÐ°Ð·Ð²Ð°Ð½Ð¸Ðµ Ð¡Ð¢Ðž Ð¾Ð±Ð½Ð¾Ð²Ð»ÐµÐ½Ð¾.\n";
             system("pause");
             break;
         }
@@ -212,51 +196,51 @@ int main() {
             int sub = 0;
             do {
                 system("cls");
-                cout << "---Óïðàâëåíèå êàòàëîãîì---\n";
-                cout << "1. Äîáàâèòü òîâàð\n";
-                cout << "2. Ðåäàêòèðîâàòü òîâàð\n";
-                cout << "3. Óäàëèòü òîâàð\n";
-                cout << "0. Íàçàä\n";
-                cout << "Âûáîð: ";
+                cout << "---Ð£Ð¿Ñ€Ð°Ð²Ð»ÐµÐ½Ð¸Ðµ ÐºÐ°Ñ‚Ð°Ð»Ð¾Ð³Ð¾Ð¼ ÑƒÑÐ»ÑƒÐ³---\n";
+                cout << "1. Ð”Ð¾Ð±Ð°Ð²Ð¸Ñ‚ÑŒ ÑƒÑÐ»ÑƒÐ³Ñƒ\n";
+                cout << "2. Ð ÐµÐ´Ð°ÐºÑ‚Ð¸Ñ€Ð¾Ð²Ð°Ñ‚ÑŒ ÑƒÑÐ»ÑƒÐ³Ñƒ\n";
+                cout << "3. Ð£Ð´Ð°Ð»Ð¸Ñ‚ÑŒ ÑƒÑÐ»ÑƒÐ³Ñƒ\n";
+                cout << "0. ÐÐ°Ð·Ð°Ð´\n";
+                cout << "Ð’Ñ‹Ð±Ð¾Ñ€: ";
                 cin >> sub;
                 if (cin.fail()) { cin.clear(); cin.ignore(10000, '\n'); sub = -1; }
 
                 if (sub == 1) {
                     system("cls");
                     cin.ignore(10000, '\n');
-                    Clothing* item = create_clothing_from_input();
-                    shop.add_to_catalog(item);
-                    cout << "Òîâàð äîáàâëåí â êàòàëîã.\n";
+                    Service* item = create_service_from_input();
+                    station.add_to_catalog(item);
+                    cout << "Ð£ÑÐ»ÑƒÐ³Ð° Ð´Ð¾Ð±Ð°Ð²Ð»ÐµÐ½Ð° Ð² ÐºÐ°Ñ‚Ð°Ð»Ð¾Ð³.\n";
                     system("pause");
                 }
                 else if (sub == 2) {
                     system("cls");
-                    shop.show_catalog(cout);
-                    if (shop.get_catalog_count() == 0) { system("pause"); continue; }
-                    cout << "Ââåäèòå íîìåð òîâàðà äëÿ ðåäàêòèðîâàíèÿ: ";
+                    station.show_catalog(cout);
+                    if (station.get_catalog_count() == 0) { system("pause"); continue; }
+                    cout << "Ð’Ð²ÐµÐ´Ð¸Ñ‚Ðµ Ð½Ð¾Ð¼ÐµÑ€ ÑƒÑÐ»ÑƒÐ³Ð¸ Ð´Ð»Ñ Ñ€ÐµÐ´Ð°ÐºÑ‚Ð¸Ñ€Ð¾Ð²Ð°Ð½Ð¸Ñ: ";
                     int idx; cin >> idx;
                     cin.ignore(10000, '\n');
-                    if (idx > 0 && idx <= shop.get_catalog_count()) {
-                        edit_clothing_fields(shop.get_catalog_item(idx - 1));
-                        cout << "Òîâàð èçìåí¸í.\n";
+                    if (idx > 0 && idx <= station.get_catalog_count()) {
+                        edit_service_fields(station.get_catalog_item(idx - 1));
+                        cout << "Ð£ÑÐ»ÑƒÐ³Ð° Ð¸Ð·Ð¼ÐµÐ½ÐµÐ½Ð°.\n";
                     }
                     else {
-                        cout << "Íåâåðíûé íîìåð.\n";
+                        cout << "ÐÐµÐ²ÐµÑ€Ð½Ñ‹Ð¹ Ð½Ð¾Ð¼ÐµÑ€.\n";
                     }
                     system("pause");
                 }
                 else if (sub == 3) {
                     system("cls");
-                    shop.show_catalog(cout);
-                    if (shop.get_catalog_count() == 0) { system("pause"); continue; }
-                    cout << "Ââåäèòå íîìåð òîâàðà äëÿ óäàëåíèÿ: ";
+                    station.show_catalog(cout);
+                    if (station.get_catalog_count() == 0) { system("pause"); continue; }
+                    cout << "Ð’Ð²ÐµÐ´Ð¸Ñ‚Ðµ Ð½Ð¾Ð¼ÐµÑ€ ÑƒÑÐ»ÑƒÐ³Ð¸ Ð´Ð»Ñ ÑƒÐ´Ð°Ð»ÐµÐ½Ð¸Ñ: ";
                     int idx; cin >> idx;
-                    if (idx > 0 && idx <= shop.get_catalog_count()) {
-                        shop.remove_from_catalog(idx - 1);
-                        cout << "Òîâàð óäàë¸í.\n";
+                    if (idx > 0 && idx <= station.get_catalog_count()) {
+                        station.remove_from_catalog(idx - 1);
+                        cout << "Ð£ÑÐ»ÑƒÐ³Ð° ÑƒÐ´Ð°Ð»ÐµÐ½Ð°.\n";
                     }
                     else {
-                        cout << "Íåâåðíûé íîìåð.\n";
+                        cout << "ÐÐµÐ²ÐµÑ€Ð½Ñ‹Ð¹ Ð½Ð¾Ð¼ÐµÑ€.\n";
                     }
                     system("pause");
                 }
@@ -266,87 +250,87 @@ int main() {
 
         case 6: {
             system("cls");
-            if (shop.get_orders_count() == 0) {
-                cout << "Çàêàçîâ íåò.\n";
+            if (station.get_orders_count() == 0) {
+                cout << "Ð—Ð°ÐºÐ°Ð·-Ð½Ð°Ñ€ÑÐ´Ð¾Ð² Ð½ÐµÑ‚.\n";
                 system("pause");
                 break;
             }
-            shop.show_orders(cout);
-            cout << "Ââåäèòå íîìåð çàêàçà: ";
+            station.show_orders(cout);
+            cout << "Ð’Ð²ÐµÐ´Ð¸Ñ‚Ðµ Ð½Ð¾Ð¼ÐµÑ€ Ð·Ð°ÐºÐ°Ð·-Ð½Ð°Ñ€ÑÐ´Ð°: ";
             int order_idx; cin >> order_idx;
-            if (order_idx < 1 || order_idx > shop.get_orders_count()) {
-                cout << "Íåâåðíûé íîìåð.\n";
+            if (order_idx < 1 || order_idx > station.get_orders_count()) {
+                cout << "ÐÐµÐ²ÐµÑ€Ð½Ñ‹Ð¹ Ð½Ð¾Ð¼ÐµÑ€.\n";
                 system("pause");
                 break;
             }
-            Order& order = shop.get_order(order_idx - 1);
+            RepairOrder& order = station.get_order(order_idx - 1);
 
             int sub = 0;
             do {
                 system("cls");
-                cout << "---Óïðàâëåíèå çàêàçîì ¹" << order_idx << "---\n";
+                cout << "---Ð£Ð¿Ñ€Ð°Ð²Ð»ÐµÐ½Ð¸Ðµ Ð·Ð°ÐºÐ°Ð·-Ð½Ð°Ñ€ÑÐ´Ð¾Ð¼ â„–" << order_idx << "---\n";
                 order.print_receipt(cout);
-                cout << "\n1. Äîáàâèòü òîâàð â çàêàç\n";
-                cout << "2. Ðåäàêòèðîâàòü òîâàð â çàêàçå\n";
-                cout << "3. Óäàëèòü òîâàð èç çàêàçà\n";
-                cout << "0. Íàçàä\n";
-                cout << "Âûáîð: ";
+                cout << "\n1. Ð”Ð¾Ð±Ð°Ð²Ð¸Ñ‚ÑŒ ÑƒÑÐ»ÑƒÐ³Ñƒ Ð² Ð·Ð°ÐºÐ°Ð·-Ð½Ð°Ñ€ÑÐ´\n";
+                cout << "2. Ð ÐµÐ´Ð°ÐºÑ‚Ð¸Ñ€Ð¾Ð²Ð°Ñ‚ÑŒ ÑƒÑÐ»ÑƒÐ³Ñƒ Ð² Ð·Ð°ÐºÐ°Ð·-Ð½Ð°Ñ€ÑÐ´Ðµ\n";
+                cout << "3. Ð£Ð´Ð°Ð»Ð¸Ñ‚ÑŒ ÑƒÑÐ»ÑƒÐ³Ñƒ Ð¸Ð· Ð·Ð°ÐºÐ°Ð·-Ð½Ð°Ñ€ÑÐ´Ð°\n";
+                cout << "0. ÐÐ°Ð·Ð°Ð´\n";
+                cout << "Ð’Ñ‹Ð±Ð¾Ñ€: ";
                 cin >> sub;
                 if (cin.fail()) { cin.clear(); cin.ignore(10000, '\n'); sub = -1; }
 
                 if (sub == 1) {
                     system("cls");
-                    shop.show_catalog(cout);
-                    if (shop.get_catalog_count() == 0) { system("pause"); continue; }
-                    cout << "Ââåäèòå íîìåð òîâàðà: ";
+                    station.show_catalog(cout);
+                    if (station.get_catalog_count() == 0) { system("pause"); continue; }
+                    cout << "Ð’Ð²ÐµÐ´Ð¸Ñ‚Ðµ Ð½Ð¾Ð¼ÐµÑ€ ÑƒÑÐ»ÑƒÐ³Ð¸: ";
                     int idx; cin >> idx;
-                    if (idx > 0 && idx <= shop.get_catalog_count()) {
-                        order.add_item(shop.get_catalog_item(idx - 1));
+                    if (idx > 0 && idx <= station.get_catalog_count()) {
+                        order.add_service(station.get_catalog_item(idx - 1));
                         order.calculate_total();
-                        cout << "Òîâàð äîáàâëåí â çàêàç.\n";
+                        cout << "Ð£ÑÐ»ÑƒÐ³Ð° Ð´Ð¾Ð±Ð°Ð²Ð»ÐµÐ½Ð° Ð² Ð·Ð°ÐºÐ°Ð·-Ð½Ð°Ñ€ÑÐ´.\n";
                     }
                     else {
-                        cout << "Íåâåðíûé íîìåð.\n";
+                        cout << "ÐÐµÐ²ÐµÑ€Ð½Ñ‹Ð¹ Ð½Ð¾Ð¼ÐµÑ€.\n";
                     }
                     system("pause");
                 }
                 else if (sub == 2) {
                     system("cls");
                     order.print_receipt(cout);
-                    if (order.get_item_count() == 0) { system("pause"); continue; }
-                    cout << "Ââåäèòå íîìåð ïîçèöèè çàêàçà äëÿ ðåäàêòèðîâàíèÿ: ";
+                    if (order.get_service_count() == 0) { system("pause"); continue; }
+                    cout << "Ð’Ð²ÐµÐ´Ð¸Ñ‚Ðµ Ð½Ð¾Ð¼ÐµÑ€ Ð¿Ð¾Ð·Ð¸Ñ†Ð¸Ð¸ Ð·Ð°ÐºÐ°Ð·-Ð½Ð°Ñ€ÑÐ´Ð° Ð´Ð»Ñ Ñ€ÐµÐ´Ð°ÐºÑ‚Ð¸Ñ€Ð¾Ð²Ð°Ð½Ð¸Ñ: ";
                     int idx; cin >> idx;
-                    if (idx > 0 && idx <= order.get_item_count()) {
-                        shop.show_catalog(cout);
-                        cout << "Ââåäèòå íîìåð íîâîãî òîâàðà èç êàòàëîãà: ";
+                    if (idx > 0 && idx <= order.get_service_count()) {
+                        station.show_catalog(cout);
+                        cout << "Ð’Ð²ÐµÐ´Ð¸Ñ‚Ðµ Ð½Ð¾Ð¼ÐµÑ€ Ð½Ð¾Ð²Ð¾Ð¹ ÑƒÑÐ»ÑƒÐ³Ð¸ Ð¸Ð· ÐºÐ°Ñ‚Ð°Ð»Ð¾Ð³Ð°: ";
                         int new_idx; cin >> new_idx;
-                        if (new_idx > 0 && new_idx <= shop.get_catalog_count()) {
-                            order.edit_item(idx - 1, shop.get_catalog_item(new_idx - 1));
+                        if (new_idx > 0 && new_idx <= station.get_catalog_count()) {
+                            order.edit_service(idx - 1, station.get_catalog_item(new_idx - 1));
                             order.calculate_total();
-                            cout << "Ïîçèöèÿ çàêàçà îáíîâëåíà.\n";
+                            cout << "ÐŸÐ¾Ð·Ð¸Ñ†Ð¸Ñ Ð·Ð°ÐºÐ°Ð·-Ð½Ð°Ñ€ÑÐ´Ð° Ð¾Ð±Ð½Ð¾Ð²Ð»ÐµÐ½Ð°.\n";
                         }
                         else {
-                            cout << "Íåâåðíûé íîìåð òîâàðà.\n";
+                            cout << "ÐÐµÐ²ÐµÑ€Ð½Ñ‹Ð¹ Ð½Ð¾Ð¼ÐµÑ€ ÑƒÑÐ»ÑƒÐ³Ð¸.\n";
                         }
                     }
                     else {
-                        cout << "Íåâåðíàÿ ïîçèöèÿ.\n";
+                        cout << "ÐÐµÐ²ÐµÑ€Ð½Ð°Ñ Ð¿Ð¾Ð·Ð¸Ñ†Ð¸Ñ.\n";
                     }
                     system("pause");
                 }
                 else if (sub == 3) {
                     system("cls");
                     order.print_receipt(cout);
-                    if (order.get_item_count() == 0) { system("pause"); continue; }
-                    cout << "Ââåäèòå íîìåð ïîçèöèè äëÿ óäàëåíèÿ: ";
+                    if (order.get_service_count() == 0) { system("pause"); continue; }
+                    cout << "Ð’Ð²ÐµÐ´Ð¸Ñ‚Ðµ Ð½Ð¾Ð¼ÐµÑ€ Ð¿Ð¾Ð·Ð¸Ñ†Ð¸Ð¸ Ð´Ð»Ñ ÑƒÐ´Ð°Ð»ÐµÐ½Ð¸Ñ: ";
                     int idx; cin >> idx;
-                    if (idx > 0 && idx <= order.get_item_count()) {
-                        order.remove_item(idx - 1);
+                    if (idx > 0 && idx <= order.get_service_count()) {
+                        order.remove_service(idx - 1);
                         order.calculate_total();
-                        cout << "Ïîçèöèÿ óäàëåíà.\n";
+                        cout << "ÐŸÐ¾Ð·Ð¸Ñ†Ð¸Ñ ÑƒÐ´Ð°Ð»ÐµÐ½Ð°.\n";
                     }
                     else {
-                        cout << "Íåâåðíûé íîìåð.\n";
+                        cout << "ÐÐµÐ²ÐµÑ€Ð½Ñ‹Ð¹ Ð½Ð¾Ð¼ÐµÑ€.\n";
                     }
                     system("pause");
                 }
@@ -354,31 +338,22 @@ int main() {
             break;
         }
 
-        case 7: {
-            system("cls");
-            shop.sort_catalog_by_price(sort_default);
-            cout << "Êàòàëîã îòñîðòèðîâàí ïî öåíå (ïî âîçðàñòàíèþ).\n\n";
-            shop.show_catalog(cout);
-            system("pause");
-            break;
-        }
-
         case 0: {
             system("cls");
-            if (shop.save_all_to_file(FILE_NAME))
-                cout << "Äàííûå ñîõðàíåíû â " << FILE_NAME << endl;
+            if (station.save_all_to_file(FILE_NAME))
+                cout << "Ð”Ð°Ð½Ð½Ñ‹Ðµ ÑÐ¾Ñ…Ñ€Ð°Ð½ÐµÐ½Ñ‹ Ð² " << FILE_NAME << endl;
             else
-                cout << "Îøèáêà ñîõðàíåíèÿ.\n";
+                cout << "ÐžÑˆÐ¸Ð±ÐºÐ° ÑÐ¾Ñ…Ñ€Ð°Ð½ÐµÐ½Ð¸Ñ.\n";
             break;
         }
 
         default:
-            cout << "Íåâåðíûé âûáîð" << endl;
+            cout << "ÐÐµÐ²ÐµÑ€Ð½Ñ‹Ð¹ Ð²Ñ‹Ð±Ð¾Ñ€" << endl;
             system("pause");
             break;
         }
     } while (choice != 0);
 
-    cout << "Äî ñâèäàíèÿ" << endl;
+    cout << "Ð”Ð¾ ÑÐ²Ð¸Ð´Ð°Ð½Ð¸Ñ" << endl;
     return 0;
 }

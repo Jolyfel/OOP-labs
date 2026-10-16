@@ -1,6 +1,6 @@
-/*18. Разработать набор классов (минимум 5 классов, связи между классами: 
-агрегация, композиция, наследование) по предметной области «Магазин одежды». 
-Функционал программы должен позволить собрать данные о заказе. */
+п»ї/*26. Р Р°Р·СЂР°Р±РѕС‚Р°С‚СЊ РЅР°Р±РѕСЂ РєР»Р°СЃСЃРѕРІ (РјРёРЅРёРјСѓРј 5 РєР»Р°СЃСЃРѕРІ, СЃРІСЏР·Рё РјРµР¶РґСѓ РєР»Р°СЃСЃР°РјРё: 
+Р°РіСЂРµРіР°С†РёСЏ, РєРѕРјРїРѕР·РёС†РёСЏ, РЅР°СЃР»РµРґРѕРІР°РЅРёРµ) РїРѕ РїСЂРµРґРјРµС‚РЅРѕР№ РѕР±Р»Р°СЃС‚Рё В«РЎС‚Р°РЅС†РёСЏ С‚РµС…РЅРёС‡РµСЃРєРѕРіРѕ РѕР±СЃР»СѓР¶РёРІР°РЅРёСЏ Р°РІС‚РѕРјРѕР±РёР»РµР№В». 
+Р¤СѓРЅРєС†РёРѕРЅР°Р» РїСЂРѕРіСЂР°РјРјС‹ РґРѕР»Р¶РµРЅ РїРѕР·РІРѕР»РёС‚СЊ СЃРѕР±СЂР°С‚СЊ РґР°РЅРЅС‹Рµ РѕР± СѓСЃР»СѓРіРµ РїРѕ РѕР±СЃР»СѓР¶РёРІР°РЅРёСЋ Р°РІС‚РѕРјРѕР±РёР»СЏ. */
 
 #include <iostream>
 #include <fstream>
@@ -11,69 +11,69 @@
 
 using namespace std;
 
-Customer::Customer() : name(""), phone_number(""), address(""), card_id(0) {}
+CarOwner::CarOwner() : full_name(""), phone_number(""), address(""), car_number(0) {}
 
-Customer::Customer(string name, string phone_number, string address, int card_id)
-    : name(name), phone_number(phone_number), address(address), card_id(card_id) {
+CarOwner::CarOwner(string full_name, string phone_number, string address, int car_number)
+    : full_name(full_name), phone_number(phone_number), address(address), car_number(car_number) {
 }
 
-void Customer::print_info(ostream& os) {
-    os << "Имя: " << name
-        << ", Телефон: " << phone_number
-        << ", Адрес: " << address
-        << ", Карта: " << card_id;
+void CarOwner::print_info(ostream& os) {
+    os << "Р’Р»Р°РґРµР»РµС†: " << full_name
+        << ", РўРµР»РµС„РѕРЅ: " << phone_number
+        << ", РђРґСЂРµСЃ: " << address
+        << ", РђРІС‚Рѕ: " << car_number;
 }
 
-Customer::~Customer() {}
+CarOwner::~CarOwner() {}
 
-Order::Order()
-    : customer(), items(nullptr), order_date(""), order_id(0),
-    total_price(0), item_count(0), capacity(0) {
+RepairOrder::RepairOrder()
+    : owner(), services(nullptr), order_date(""), order_id(0),
+    total_price(0), service_count(0), capacity(0) {
 }
 
-Order::Order(Customer customer, string order_date, int order_id)
-    : customer(customer), items(nullptr), order_date(order_date),
-    order_id(order_id), total_price(0), item_count(0), capacity(0) {
+RepairOrder::RepairOrder(CarOwner owner, string order_date, int order_id)
+    : owner(owner), services(nullptr), order_date(order_date),
+    order_id(order_id), total_price(0), service_count(0), capacity(0) {
 }
 
-Order::~Order() {
-    delete[] items;
+RepairOrder::~RepairOrder() {
+    delete[] services;
 }
 
-void Order::add_item(Clothing* item) {
-    if (item_count >= capacity) {
+void RepairOrder::add_service(Service* service) {
+    if (service_count >= capacity) {
         int new_cap = (capacity == 0) ? 4 : capacity * 2;
-        Clothing** new_items = new Clothing * [new_cap];
-        for (int i = 0; i < item_count; ++i) new_items[i] = items[i];
-        delete[] items;
-        items = new_items;
+        Service** new_services = new Service * [new_cap];
+        for (int i = 0; i < service_count; ++i) new_services[i] = services[i];
+        delete[] services;
+        services = new_services;
         capacity = new_cap;
     }
-    items[item_count++] = item;
+    services[service_count++] = service;
 }
 
-void Order::remove_item(int index) {
-    if (index < 0 || index >= item_count) return;
-    for (int i = index; i < item_count - 1; ++i) items[i] = items[i + 1];
-    --item_count;
+void RepairOrder::remove_service(int index) {
+    if (index < 0 || index >= service_count) return;
+    for (int i = index; i < service_count - 1; ++i) services[i] = services[i + 1];
+    --service_count;
 }
 
-void Order::edit_item(int index, Clothing* new_item) {
-    if (index < 0 || index >= item_count || !new_item) return;
-    items[index] = new_item;
+void RepairOrder::edit_service(int index, Service* new_service) {
+    if (index < 0 || index >= service_count || !new_service) return;
+    services[index] = new_service;
 }
 
-double Order::calculate_total() {
+double RepairOrder::calculate_total() {
     total_price = 0;
-    for (int i = 0; i < item_count; ++i)
-        if (items[i]) total_price += items[i]->get_price();
+    for (int i = 0; i < service_count; ++i)
+        if (services[i]) total_price += services[i]->get_price();
     return total_price;
 }
 
-void Order::print_receipt(ostream& os) {
-    os << "Заказ №" << order_id << " от " << order_date << "\n";
-    customer.print_info(os);
-    os << "\nТовары:\n";
+void RepairOrder::print_receipt(ostream& os) {
+    os << "Р—Р°РєР°Р·-РЅР°СЂСЏРґ в„–" << order_id << " РѕС‚ " << order_date << "\n";
+    owner.print_info(os);
+    os << "\nРЈСЃР»СѓРіРё:\n";
 
     os.setf(ios::fixed, ios::floatfield);
     os << setprecision(2);
@@ -81,28 +81,28 @@ void Order::print_receipt(ostream& os) {
     os.setf(ios::right, ios::adjustfield);
 
     os << setw(71) << setfill('-') << "" << setfill(' ') << endl
-        << setw(7) << "№" << " | "
-        << setw(22) << "Название" << " | "
-        << setw(17) << "Категория" << " | "
-        << setw(14) << "Цена" << " | " << endl
+        << setw(7) << "в„–" << " | "
+        << setw(22) << "РќРђР—Р’РђРќРР•" << " | "
+        << setw(17) << "РўРРџ" << " | "
+        << setw(14) << "Р¦Р•РќРђ" << " | " << endl
         << setw(71) << setfill('-') << "" << setfill(' ') << endl;
-    
-    for (int i = 0; i < item_count; ++i) {
+
+    for (int i = 0; i < service_count; ++i) {
         os << setw(7) << i + 1 << " | "
-            << setw(22) << items[i]->get_name() << " | "
-            << setw(17) << items[i]->get_category() << " | "
-            << setw(14) << items[i]->get_price() << " | " << endl
+            << setw(22) << services[i]->get_name() << " | "
+            << setw(17) << services[i]->get_type() << " | "
+            << setw(14) << services[i]->get_price() << " | " << endl
             << setw(71) << setfill('-') << "" << setfill(' ') << endl;
     }
 
-    os << "Итого: " << calculate_total() << endl;
+    os << "РС‚РѕРіРѕ: " << calculate_total() << endl;
 
     os.unsetf(ios::fixed);
     os.unsetf(ios::showpoint);
     os.unsetf(ios::right);
 }
 
-bool Order::save_to_file(const string& filename) {
+bool RepairOrder::save_to_file(const string& filename) {
     ofstream out(filename);
     if (!out) return false;
     print_receipt(out);
@@ -110,114 +110,113 @@ bool Order::save_to_file(const string& filename) {
     return true;
 }
 
-void Order::clear() {
-    item_count = 0;
+void RepairOrder::clear() {
+    service_count = 0;
     total_price = 0;
 }
 
-Clothing::Clothing()
-    : name(""), brand(""), size(""), color(""), price(0), quantity(0) {
+Service::Service()
+    : name(""), category(""), duration(""), complexity(""), price(0), slots(0) {
 }
 
-Clothing::Clothing(string name, string brand, string size, string color,
-    double price, int quantity)
-    : name(name), brand(brand), size(size), color(color),
-    price(price), quantity(quantity) {
+Service::Service(string name, string category, string duration, string complexity,
+    double price, int slots)
+    : name(name), category(category), duration(duration), complexity(complexity),
+    price(price), slots(slots) {
 }
 
-void Clothing::print_info() {
-    cout << "Название: " << name
-        << ", Бренд: " << brand
-        << ", Размер: " << size
-        << ", Цвет: " << color
-        << ", Цена: " << price
-        << ", Количество: " << quantity;
+void Service::print_info() {
+    cout << "РќР°Р·РІР°РЅРёРµ: " << name
+        << ", РљР°С‚РµРіРѕСЂРёСЏ: " << category
+        << ", Р”Р»РёС‚РµР»СЊРЅРѕСЃС‚СЊ: " << duration
+        << ", РЎР»РѕР¶РЅРѕСЃС‚СЊ: " << complexity
+        << ", Р¦РµРЅР°: " << price
+        << ", РњРµСЃС‚: " << slots;
 }
 
-Clothing::~Clothing() {}
+Service::~Service() {}
 
-Jacket::Jacket() : Clothing(), season("") {}
+Diagnostics::Diagnostics() : Service(), equipment("") {}
 
-Jacket::Jacket(string name, string brand, string size, string color,
-    double price, int quantity, string season)
-    : Clothing(name, brand, size, color, price, quantity), season(season) {
+Diagnostics::Diagnostics(string name, string category, string duration, string complexity,
+    double price, int slots, string equipment)
+    : Service(name, category, duration, complexity, price, slots), equipment(equipment) {
 }
 
-void Jacket::print_info() { Clothing::print_info(); cout << ", Сезон: " << season; }
-string Jacket::get_category() { return "Куртка"; }
-Jacket::~Jacket() {}
+void Diagnostics::print_info() { Service::print_info(); cout << ", РћР±РѕСЂСѓРґРѕРІР°РЅРёРµ: " << equipment; }
+string Diagnostics::get_type() { return "Р”РёР°РіРЅРѕСЃС‚РёРєР°"; }
+Diagnostics::~Diagnostics() {}
 
-Trousers::Trousers() : Clothing(), fit("") {}
+Maintenance::Maintenance() : Service(), interval("") {}
 
-Trousers::Trousers(string name, string brand, string size, string color,
-    double price, int quantity, string fit)
-    : Clothing(name, brand, size, color, price, quantity), fit(fit) {
+Maintenance::Maintenance(string name, string category, string duration, string complexity,
+    double price, int slots, string interval)
+    : Service(name, category, duration, complexity, price, slots), interval(interval) {
 }
 
-void Trousers::print_info() { Clothing::print_info(); cout << ", Посадка: " << fit; }
-string Trousers::get_category() { return "Брюки"; }
-Trousers::~Trousers() {}
+void Maintenance::print_info() { Service::print_info(); cout << ", РРЅС‚РµСЂРІР°Р»: " << interval; }
+string Maintenance::get_type() { return "РўРћ"; }
+Maintenance::~Maintenance() {}
 
-Shirt::Shirt() : Clothing(), sleeve_type("") {}
+Repair::Repair() : Service(), part_type("") {}
 
-Shirt::Shirt(string name, string brand, string size, string color,
-    double price, int quantity, string sleeve_type)
-    : Clothing(name, brand, size, color, price, quantity),
-    sleeve_type(sleeve_type) {
+Repair::Repair(string name, string category, string duration, string complexity,
+    double price, int slots, string part_type)
+    : Service(name, category, duration, complexity, price, slots), part_type(part_type) {
 }
 
-void Shirt::print_info() { Clothing::print_info(); cout << ", Рукав: " << sleeve_type; }
-string Shirt::get_category() { return "Рубашка"; }
-Shirt::~Shirt() {}
+void Repair::print_info() { Service::print_info(); cout << ", Р”РµС‚Р°Р»СЊ: " << part_type; }
+string Repair::get_type() { return "Р РµРјРѕРЅС‚"; }
+Repair::~Repair() {}
 
-Shop::Shop()
-    : shop_name(""), catalog(nullptr), orders(nullptr),
+ServiceStation::ServiceStation()
+    : station_name(""), catalog(nullptr), orders(nullptr),
     catalog_count(0), catalog_capacity(0),
     orders_count(0), orders_capacity(0) {
 }
 
-Shop::Shop(string shop_name)
-    : shop_name(shop_name), catalog(nullptr), orders(nullptr),
+ServiceStation::ServiceStation(string station_name)
+    : station_name(station_name), catalog(nullptr), orders(nullptr),
     catalog_count(0), catalog_capacity(0),
     orders_count(0), orders_capacity(0) {
 }
 
-Shop::~Shop() {
+ServiceStation::~ServiceStation() {
     for (int i = 0; i < catalog_count; ++i) delete catalog[i];
     delete[] catalog;
     for (int i = 0; i < orders_count; ++i) delete orders[i];
     delete[] orders;
 }
 
-void Shop::add_to_catalog(Clothing* item) {
+void ServiceStation::add_to_catalog(Service* service) {
     if (catalog_count >= catalog_capacity) {
         int new_cap = (catalog_capacity == 0) ? 4 : catalog_capacity * 2;
-        Clothing** new_catalog = new Clothing * [new_cap];
+        Service** new_catalog = new Service * [new_cap];
         for (int i = 0; i < catalog_count; ++i) new_catalog[i] = catalog[i];
         delete[] catalog;
         catalog = new_catalog;
         catalog_capacity = new_cap;
     }
-    catalog[catalog_count++] = item;
+    catalog[catalog_count++] = service;
 }
 
-void Shop::remove_from_catalog(int index) {
+void ServiceStation::remove_from_catalog(int index) {
     if (index < 0 || index >= catalog_count) return;
     delete catalog[index];
     for (int i = index; i < catalog_count - 1; ++i) catalog[i] = catalog[i + 1];
     --catalog_count;
 }
 
-void Shop::edit_catalog_item(int index, Clothing* new_item) {
-    if (index < 0 || index >= catalog_count || !new_item) return;
+void ServiceStation::edit_catalog_item(int index, Service* new_service) {
+    if (index < 0 || index >= catalog_count || !new_service) return;
     delete catalog[index];
-    catalog[index] = new_item;
+    catalog[index] = new_service;
 }
 
-void Shop::add_order(const Customer& customer) {
+void ServiceStation::add_order(const CarOwner& owner) {
     if (orders_count >= orders_capacity) {
         int new_cap = (orders_capacity == 0) ? 4 : orders_capacity * 2;
-        Order** new_orders = new Order * [new_cap];
+        RepairOrder** new_orders = new RepairOrder * [new_cap];
         for (int i = 0; i < orders_count; ++i) new_orders[i] = orders[i];
         delete[] orders;
         orders = new_orders;
@@ -225,11 +224,11 @@ void Shop::add_order(const Customer& customer) {
     }
     string date;
     getline(cin, date);
-    orders[orders_count] = new Order(customer, date, orders_count + 1);
+    orders[orders_count] = new RepairOrder(owner, date, orders_count + 1);
     ++orders_count;
 }
 
-void Shop::find_item(const string& name) {
+void ServiceStation::find_item(const string& name) {
     bool found = false;
     for (int i = 0; i < catalog_count; ++i) {
         if (catalog[i]->get_name() == name) {
@@ -238,35 +237,35 @@ void Shop::find_item(const string& name) {
             found = true;
         }
     }
-    if (!found) cout << "Товар не найден.\n";
+    if (!found) cout << "РЈСЃР»СѓРіР° РЅРµ РЅР°Р№РґРµРЅР°.\n";
 }
 
-void Shop::show_catalog(ostream& os) {
+void ServiceStation::show_catalog(ostream& os) {
     os.setf(ios::fixed, ios::floatfield);
     os << setprecision(2);
     os.setf(ios::showpoint);
     os.setf(ios::right, ios::adjustfield);
 
     os << setw(120) << setfill('-') << "" << setfill(' ') << endl
-        << setw(8) << "№ | "
-        << setw(23) << "Название | "
-        << setw(18) << "Бренд | "
-        << setw(13) << "Размер | "
-        << setw(13) << "Цвет | "
-        << setw(15) << "Цена | "
-        << setw(14) << "Кол-во | "
-        << setw(16) << "Категория |" << endl
+        << setw(8) << "в„– | "
+        << setw(23) << "РќРђР—Р’РђРќРР• | "
+        << setw(18) << "РљРђРўР•Р“РћР РРЇ | "
+        << setw(13) << "Р”Р›РРў. | "
+        << setw(13) << "РЎР›РћР–Рќ. | "
+        << setw(15) << "Р¦Р•РќРђ | "
+        << setw(14) << "РњР•РЎРў | "
+        << setw(16) << "РўРРџ |" << endl
         << setw(120) << setfill('-') << "" << setfill(' ') << endl;
 
     for (int i = 0; i < catalog_count; ++i) {
         os << setw(5) << i + 1 << " | "
             << setw(20) << catalog[i]->get_name() << " | "
-            << setw(15) << catalog[i]->get_brand() << " | "
-            << setw(10) << catalog[i]->get_size() << " | "
-            << setw(10) << catalog[i]->get_color() << " | "
+            << setw(15) << catalog[i]->get_category() << " | "
+            << setw(10) << catalog[i]->get_duration() << " | "
+            << setw(10) << catalog[i]->get_complexity() << " | "
             << setw(12) << catalog[i]->get_price() << " | "
-            << setw(10) << catalog[i]->get_quantity() << " | "
-            << setw(15) << catalog[i]->get_category() << " |" << endl
+            << setw(10) << catalog[i]->get_slots() << " | "
+            << setw(15) << catalog[i]->get_type() << " |" << endl
             << setw(120) << setfill('-') << "" << setfill(' ') << endl;
     }
 
@@ -275,44 +274,21 @@ void Shop::show_catalog(ostream& os) {
     os.unsetf(ios::right);
 }
 
-void Shop::show_orders(ostream& os) {
-    if (orders_count == 0) { os << "Заказов нет.\n"; return; }
+void ServiceStation::show_orders(ostream& os) {
+    if (orders_count == 0) { os << "Р—Р°РєР°Р·-РЅР°СЂСЏРґРѕРІ РЅРµС‚.\n"; return; }
     for (int i = 0; i < orders_count; ++i) {
         orders[i]->print_receipt(os);
         os << "-------------------\n";
     }
 }
 
-void Shop::sort_catalog_by_price(bool sort_flag) {
-    for (int i = 0; i < catalog_count - 1; ++i) {
-        for (int j = 0; j < catalog_count - i - 1; ++j) {
-            if (sort_flag) {
-                if (catalog[j]->get_price() > catalog[j + 1]->get_price()) {
-                    Clothing* temp = catalog[j];
-                    catalog[j] = catalog[j + 1];
-                    catalog[j + 1] = temp;
-                    sort_flag = false;
-                }
-            }
-            else {
-                if (catalog[j]->get_price() < catalog[j + 1]->get_price()) {
-                    Clothing* temp = catalog[j];
-                    catalog[j] = catalog[j + 1];
-                    catalog[j + 1] = temp;
-                    sort_flag = true;
-                }
-            }
-        }
-    }
-}
-
-bool Shop::save_all_to_file(const string& filename) {
+bool ServiceStation::save_all_to_file(const string& filename) {
     ofstream out(filename);
     if (!out) return false;
-    out << "Магазин: " << shop_name << "\n\n";
-    out << "Каталог:\n";
+    out << "РЎРўРћ: " << station_name << "\n\n";
+    out << "РљРђРўРђР›РћР“ РЈРЎР›РЈР“:\n";
     show_catalog(out);
-    out << "\nЗаказы:\n";
+    out << "\nР—РђРљРђР—-РќРђР РЇР”Р«:\n";
     show_orders(out);
     out.close();
 
@@ -320,10 +296,10 @@ bool Shop::save_all_to_file(const string& filename) {
     if (!in) return false;
     string line;
     while (getline(in, line)) {}
-    if (in.bad())            cout << "Проверка потока: bad.\n";
-    else if (in.eof())       cout << "Проверка потока: eof.\n";
-    else if (in.fail())      cout << "Проверка потока: fail.\n";
-    else if (in.good())      cout << "Проверка потока: good.\n";
+    if (in.bad()) cout << "РџСЂРѕРІРµСЂРєР° РїРѕС‚РѕРєР°: bad.\n";
+    else if (in.eof()) cout << "РџСЂРѕРІРµСЂРєР° РїРѕС‚РѕРєР°: eof.\n";
+    else if (in.fail()) cout << "РџСЂРѕРІРµСЂРєР° РїРѕС‚РѕРєР°: fail.\n";
+    else if (in.good()) cout << "РџСЂРѕРІРµСЂРєР° РїРѕС‚РѕРєР°: good.\n";
     in.clear();
     return true;
 }
