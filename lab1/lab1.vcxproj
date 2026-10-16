@@ -123,6 +123,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="lab1_classes.cpp" />
     <ClCompile Include="lab1_main.cpp" />
   </ItemGroup>
   <ItemGroup>

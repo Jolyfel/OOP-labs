@@ -18,6 +18,9 @@
     <ClCompile Include="lab1_main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="lab1_classes.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="l1_class_header.h">
