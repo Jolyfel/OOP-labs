@@ -15,9 +15,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="lab1_classes.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="lab1_main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -31,5 +28,8 @@
     <Text Include="lab1_file.txt">
       <Filter>Resource Files</Filter>
     </Text>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ClassDiagram.cd" />
   </ItemGroup>
 </Project>

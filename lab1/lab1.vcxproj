@@ -123,7 +123,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="lab1_classes.cpp" />
     <ClCompile Include="lab1_main.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -131,6 +130,9 @@
   </ItemGroup>
   <ItemGroup>
     <Text Include="lab1_file.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ClassDiagram.cd" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
