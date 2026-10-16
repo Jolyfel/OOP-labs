@@ -1,6 +1,6 @@
-/*26. Разработать набор классов (минимум 5 классов, связи между классами: 
-агрегация, композиция, наследование) по предметной области «Станция технического обслуживания автомобилей». 
-Функционал программы должен позволить собрать данные об услуге по обслуживанию автомобиля */ 
+п»ї/*26. Р Р°Р·СЂР°Р±РѕС‚Р°С‚СЊ РЅР°Р±РѕСЂ РєР»Р°СЃСЃРѕРІ (РјРёРЅРёРјСѓРј 5 РєР»Р°СЃСЃРѕРІ, СЃРІСЏР·Рё РјРµР¶РґСѓ РєР»Р°СЃСЃР°РјРё: 
+Р°РіСЂРµРіР°С†РёСЏ, РєРѕРјРїРѕР·РёС†РёСЏ, РЅР°СЃР»РµРґРѕРІР°РЅРёРµ) РїРѕ РїСЂРµРґРјРµС‚РЅРѕР№ РѕР±Р»Р°СЃС‚Рё В«РЎС‚Р°РЅС†РёСЏ С‚РµС…РЅРёС‡РµСЃРєРѕРіРѕ РѕР±СЃР»СѓР¶РёРІР°РЅРёСЏ Р°РІС‚РѕРјРѕР±РёР»РµР№В». 
+Р¤СѓРЅРєС†РёРѕРЅР°Р» РїСЂРѕРіСЂР°РјРјС‹ РґРѕР»Р¶РµРЅ РїРѕР·РІРѕР»РёС‚СЊ СЃРѕР±СЂР°С‚СЊ РґР°РЅРЅС‹Рµ РѕР± СѓСЃР»СѓРіРµ РїРѕ РѕР±СЃР»СѓР¶РёРІР°РЅРёСЋ Р°РІС‚РѕРјРѕР±РёР»СЏ. */
 
 #include <iostream>
 #include <fstream>
@@ -18,10 +18,10 @@ CarOwner::CarOwner(string full_name, string phone_number, string address, int ca
 }
 
 void CarOwner::print_info(ostream& os) {
-    os << "Владелец: " << full_name
-        << ", Телефон: " << phone_number
-        << ", Адрес: " << address
-        << ", Авто: " << car_number;
+    os << "Р’Р»Р°РґРµР»РµС†: " << full_name
+        << ", РўРµР»РµС„РѕРЅ: " << phone_number
+        << ", РђРґСЂРµСЃ: " << address
+        << ", РђРІС‚Рѕ: " << car_number;
 }
 
 CarOwner::~CarOwner() {}
@@ -71,9 +71,9 @@ double RepairOrder::calculate_total() {
 }
 
 void RepairOrder::print_receipt(ostream& os) {
-    os << "Заказ-наряд №" << order_id << " от " << order_date << "\n";
+    os << "Р—Р°РєР°Р·-РЅР°СЂСЏРґ в„–" << order_id << " РѕС‚ " << order_date << "\n";
     owner.print_info(os);
-    os << "\nУслуги:\n";
+    os << "\nРЈСЃР»СѓРіРё:\n";
 
     os.setf(ios::fixed, ios::floatfield);
     os << setprecision(2);
@@ -81,10 +81,10 @@ void RepairOrder::print_receipt(ostream& os) {
     os.setf(ios::right, ios::adjustfield);
 
     os << setw(71) << setfill('-') << "" << setfill(' ') << endl
-        << setw(7) << "№" << " | "
-        << setw(22) << "НАЗВАНИЕ" << " | "
-        << setw(17) << "ТИП" << " | "
-        << setw(14) << "ЦЕНА" << " | " << endl
+        << setw(7) << "в„–" << " | "
+        << setw(22) << "РќРђР—Р’РђРќРР•" << " | "
+        << setw(17) << "РўРРџ" << " | "
+        << setw(14) << "Р¦Р•РќРђ" << " | " << endl
         << setw(71) << setfill('-') << "" << setfill(' ') << endl;
 
     for (int i = 0; i < service_count; ++i) {
@@ -95,7 +95,7 @@ void RepairOrder::print_receipt(ostream& os) {
             << setw(71) << setfill('-') << "" << setfill(' ') << endl;
     }
 
-    os << "Итого: " << calculate_total() << endl;
+    os << "РС‚РѕРіРѕ: " << calculate_total() << endl;
 
     os.unsetf(ios::fixed);
     os.unsetf(ios::showpoint);
@@ -126,12 +126,12 @@ Service::Service(string name, string category, string duration, string complexit
 }
 
 void Service::print_info() {
-    cout << "Название: " << name
-        << ", Категория: " << category
-        << ", Длительность: " << duration
-        << ", Сложность: " << complexity
-        << ", Цена: " << price
-        << ", Мест: " << slots;
+    cout << "РќР°Р·РІР°РЅРёРµ: " << name
+        << ", РљР°С‚РµРіРѕСЂРёСЏ: " << category
+        << ", Р”Р»РёС‚РµР»СЊРЅРѕСЃС‚СЊ: " << duration
+        << ", РЎР»РѕР¶РЅРѕСЃС‚СЊ: " << complexity
+        << ", Р¦РµРЅР°: " << price
+        << ", РњРµСЃС‚: " << slots;
 }
 
 Service::~Service() {}
@@ -143,8 +143,8 @@ Diagnostics::Diagnostics(string name, string category, string duration, string c
     : Service(name, category, duration, complexity, price, slots), equipment(equipment) {
 }
 
-void Diagnostics::print_info() { Service::print_info(); cout << ", Оборудование: " << equipment; }
-string Diagnostics::get_type() { return "Диагностика"; }
+void Diagnostics::print_info() { Service::print_info(); cout << ", РћР±РѕСЂСѓРґРѕРІР°РЅРёРµ: " << equipment; }
+string Diagnostics::get_type() { return "Р”РёР°РіРЅРѕСЃС‚РёРєР°"; }
 Diagnostics::~Diagnostics() {}
 
 Maintenance::Maintenance() : Service(), interval("") {}
@@ -154,8 +154,8 @@ Maintenance::Maintenance(string name, string category, string duration, string c
     : Service(name, category, duration, complexity, price, slots), interval(interval) {
 }
 
-void Maintenance::print_info() { Service::print_info(); cout << ", Интервал: " << interval; }
-string Maintenance::get_type() { return "ТО"; }
+void Maintenance::print_info() { Service::print_info(); cout << ", РРЅС‚РµСЂРІР°Р»: " << interval; }
+string Maintenance::get_type() { return "РўРћ"; }
 Maintenance::~Maintenance() {}
 
 Repair::Repair() : Service(), part_type("") {}
@@ -165,8 +165,8 @@ Repair::Repair(string name, string category, string duration, string complexity,
     : Service(name, category, duration, complexity, price, slots), part_type(part_type) {
 }
 
-void Repair::print_info() { Service::print_info(); cout << ", Деталь: " << part_type; }
-string Repair::get_type() { return "Ремонт"; }
+void Repair::print_info() { Service::print_info(); cout << ", Р”РµС‚Р°Р»СЊ: " << part_type; }
+string Repair::get_type() { return "Р РµРјРѕРЅС‚"; }
 Repair::~Repair() {}
 
 ServiceStation::ServiceStation()
@@ -237,7 +237,7 @@ void ServiceStation::find_item(const string& name) {
             found = true;
         }
     }
-    if (!found) cout << "Услуга не найдена.\n";
+    if (!found) cout << "РЈСЃР»СѓРіР° РЅРµ РЅР°Р№РґРµРЅР°.\n";
 }
 
 void ServiceStation::show_catalog(ostream& os) {
@@ -247,14 +247,14 @@ void ServiceStation::show_catalog(ostream& os) {
     os.setf(ios::right, ios::adjustfield);
 
     os << setw(120) << setfill('-') << "" << setfill(' ') << endl
-        << setw(8) << "№ | "
-        << setw(23) << "НАЗВАНИЕ | "
-        << setw(18) << "КАТЕГОРИЯ | "
-        << setw(13) << "ДЛИТ. | "
-        << setw(13) << "СЛОЖН. | "
-        << setw(15) << "ЦЕНА | "
-        << setw(14) << "МЕСТ | "
-        << setw(16) << "ТИП |" << endl
+        << setw(8) << "в„– | "
+        << setw(23) << "РќРђР—Р’РђРќРР• | "
+        << setw(18) << "РљРђРўР•Р“РћР РРЇ | "
+        << setw(13) << "Р”Р›РРў. | "
+        << setw(13) << "РЎР›РћР–Рќ. | "
+        << setw(15) << "Р¦Р•РќРђ | "
+        << setw(14) << "РњР•РЎРў | "
+        << setw(16) << "РўРРџ |" << endl
         << setw(120) << setfill('-') << "" << setfill(' ') << endl;
 
     for (int i = 0; i < catalog_count; ++i) {
@@ -275,7 +275,7 @@ void ServiceStation::show_catalog(ostream& os) {
 }
 
 void ServiceStation::show_orders(ostream& os) {
-    if (orders_count == 0) { os << "Заказ-нарядов нет.\n"; return; }
+    if (orders_count == 0) { os << "Р—Р°РєР°Р·-РЅР°СЂСЏРґРѕРІ РЅРµС‚.\n"; return; }
     for (int i = 0; i < orders_count; ++i) {
         orders[i]->print_receipt(os);
         os << "-------------------\n";
@@ -285,10 +285,10 @@ void ServiceStation::show_orders(ostream& os) {
 bool ServiceStation::save_all_to_file(const string& filename) {
     ofstream out(filename);
     if (!out) return false;
-    out << "СТО: " << station_name << "\n\n";
-    out << "КАТАЛОГ УСЛУГ:\n";
+    out << "РЎРўРћ: " << station_name << "\n\n";
+    out << "РљРђРўРђР›РћР“ РЈРЎР›РЈР“:\n";
     show_catalog(out);
-    out << "\nЗАКАЗ-НАРЯДЫ:\n";
+    out << "\nР—РђРљРђР—-РќРђР РЇР”Р«:\n";
     show_orders(out);
     out.close();
 
@@ -296,10 +296,10 @@ bool ServiceStation::save_all_to_file(const string& filename) {
     if (!in) return false;
     string line;
     while (getline(in, line)) {}
-    if (in.bad()) cout << "Проверка потока: bad.\n";
-    else if (in.eof()) cout << "Проверка потока: eof.\n";
-    else if (in.fail()) cout << "Проверка потока: fail.\n";
-    else if (in.good()) cout << "Проверка потока: good.\n";
+    if (in.bad()) cout << "РџСЂРѕРІРµСЂРєР° РїРѕС‚РѕРєР°: bad.\n";
+    else if (in.eof()) cout << "РџСЂРѕРІРµСЂРєР° РїРѕС‚РѕРєР°: eof.\n";
+    else if (in.fail()) cout << "РџСЂРѕРІРµСЂРєР° РїРѕС‚РѕРєР°: fail.\n";
+    else if (in.good()) cout << "РџСЂРѕРІРµСЂРєР° РїРѕС‚РѕРєР°: good.\n";
     in.clear();
     return true;
 }
