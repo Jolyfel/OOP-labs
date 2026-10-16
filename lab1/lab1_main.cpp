@@ -80,9 +80,9 @@ int main() {
 
     ServiceStation station("СТО АвтоМастер");
 
-    station.add_to_catalog(new Diagnostics("Комп. диагностика", "Электрика", "30 мин", "Средняя", 1500, 3, "Сканер OBD-II"));
-    station.add_to_catalog(new Maintenance("Замена масла", "Двигатель", "40 мин", "Низкая", 2500, 5, "каждые 10 000 км"));
-    station.add_to_catalog(new Repair("Замена колодок", "Тормозная сист.", "1 час", "Средняя", 3000, 4, "колодки"));
+    station.add_to_catalog(new Diagnostics("Комп. диагностика", "Электрика", "30 мин", "Средняя", 45, 3, "Сканер OBD-II"));
+    station.add_to_catalog(new Maintenance("Замена масла", "Двигатель", "40 мин", "Низкая", 75, 5, "каждые 10 000 км"));
+    station.add_to_catalog(new Repair("Замена колодок", "Тормозная сист.", "1 час", "Средняя", 125, 4, "колодки"));
 
     int choice = 0;
 
