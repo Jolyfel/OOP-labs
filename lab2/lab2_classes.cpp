@@ -390,6 +390,40 @@ bool ServiceStation::save_all_to_file(const string& filename) {
     return true;
 }
 
+bool ServiceStation::load_catalog_from_file(const string& filename) {
+    ifstream in;
+    in.open(filename);
+    if (!in.is_open()) return false;
+
+    for (int i = 0; i < catalog_count; ++i) delete catalog[i];
+    catalog_count = 0;
+
+    Service* s = nullptr;
+    while (true) {
+        in >> s;
+        if (!s) break;
+        add_to_catalog(s);
+        s = nullptr;
+    }
+
+    in.close();
+    return true;
+}
+
+bool ServiceStation::save_catalog_to_file(const string& filename) {
+    ofstream out;
+    out.open(filename, ios::trunc);
+    if (!out.is_open()) return false;
+
+    for (int i = 0; i < catalog_count; ++i) {
+        out << *catalog[i] << "\n";
+        if (out.bad()) { out.close(); return false; }
+    }
+
+    out.close();
+    return true;
+}
+
 long ServiceStation::find_position(const string& filename, int index) {
     ifstream in;
     in.open(filename);
@@ -598,4 +632,3 @@ bool ServiceStation::edit_service_in_file(const string& filename, int index, Ser
     delete[] temp;
     return true;
 }
-

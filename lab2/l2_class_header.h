@@ -169,6 +169,8 @@ public:
     int get_orders_count() const { return orders_count; }
     RepairOrder& get_order(int index) const { return *orders[index]; }
 
+    bool load_catalog_from_file(const string& filename);
+    bool save_catalog_to_file(const string& filename);
     bool add_service_to_file(const string& filename, Service* service);
     bool delete_service_from_file(const string& filename, int index);
     bool edit_service_in_file(const string& filename, int index, Service* s);

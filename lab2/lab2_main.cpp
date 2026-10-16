@@ -4,6 +4,7 @@
 #include <windows.h>
 #include "l2_class_header.h"
 #define FILE_NAME "lab2_file.txt"
+#define REPORT_FILE "lab2_report.txt"
 
 using namespace std;
 
@@ -83,6 +84,7 @@ int main() {
     station.add_to_catalog(new Diagnostics("Комп. диагностика", "Электрика", "30 мин", "Средняя", 45, 3, "Сканер OBD-II"));
     station.add_to_catalog(new Maintenance("Замена масла", "Двигатель", "40 мин", "Низкая", 75, 5, "каждые 10 000 км"));
     station.add_to_catalog(new Repair("Замена колодок", "Тормозная сист.", "1 час", "Средняя", 125, 4, "колодки"));
+    station.load_catalog_from_file(FILE_NAME);
 
     int choice = 0;
     int choice_f = 0;
@@ -96,7 +98,6 @@ int main() {
         cout << "4. Изменить название СТО\n";
         cout << "5. Управление каталогом услуг\n";
         cout << "6. Управление заказ-нарядом\n";
-        cout << "7. Меню работы с файлами\n";
         cout << "0. Сохранить и выйти\n";
         cout << "====================================\n\n";
         cout << "Ваш выбор: ";
@@ -206,6 +207,9 @@ int main() {
                 cout << "1. Добавить услугу\n";
                 cout << "2. Редактировать услугу\n";
                 cout << "3. Удалить услугу\n";
+                cout << "4. Просмотреть каталог (память)\n";
+                cout << "5. Просмотреть файл данных\n";
+                cout << "6. Поиск по названию в файле\n";
                 cout << "0. Назад\n";
                 cout << "Выбор: ";
                 cin >> sub;
@@ -216,7 +220,8 @@ int main() {
                     cin.ignore(10000, '\n');
                     Service* item = create_service_from_input();
                     station.add_to_catalog(item);
-                    cout << "Услуга добавлена в каталог.\n";
+                    station.save_catalog_to_file(FILE_NAME);
+                    cout << "Услуга добавлена в каталог и в файл.\n";
                     system("pause");
                 }
                 else if (sub == 2) {
@@ -228,7 +233,8 @@ int main() {
                     cin.ignore(10000, '\n');
                     if (idx > 0 && idx <= station.get_catalog_count()) {
                         edit_service_fields(station.get_catalog_item(idx - 1));
-                        cout << "Услуга изменена.\n";
+                        station.save_catalog_to_file(FILE_NAME);
+                        cout << "Услуга изменена (в памяти и в файле).\n";
                     }
                     else {
                         cout << "Неверный номер.\n";
@@ -243,11 +249,31 @@ int main() {
                     int idx; cin >> idx;
                     if (idx > 0 && idx <= station.get_catalog_count()) {
                         station.remove_from_catalog(idx - 1);
-                        cout << "Услуга удалена.\n";
+                        station.save_catalog_to_file(FILE_NAME);
+                        cout << "Услуга удалена (из памяти и из файла).\n";
                     }
                     else {
                         cout << "Неверный номер.\n";
                     }
+                    system("pause");
+                }
+                else if (sub == 4) {
+                    system("cls");
+                    station.show_catalog(cout);
+                    system("pause");
+                }
+                else if (sub == 5) {
+                    system("cls");
+                    station.view_file(FILE_NAME);
+                    system("pause");
+                }
+                else if (sub == 6) {
+                    system("cls");
+                    cin.ignore(10000, '\n');
+                    string name;
+                    cout << "Введите название для поиска: ";
+                    getline(cin, name);
+                    station.search_in_file(FILE_NAME, name);
                     system("pause");
                 }
             } while (sub != 0);
@@ -344,92 +370,14 @@ int main() {
             break;
         }
 
-        case 7: {
-            do {
-                system("cls");
-                cout << "==========СТО: АвтоМастер===========\n";
-                cout << "1. Добавить услугу\n";
-                cout << "2. Удалить услугу\n";
-                cout << "3. Редактировать услугу\n";
-                cout << "4. Просмотреть\n";
-                cout << "5. Поиск по названию\n";
-                cout << "0. Выйти в главное меню\n";
-                cout << "====================================\n\n";
-                cout << "Ваш выбор: ";
-
-                cin >> choice_f;
-                if (cin.fail()) { cin.clear(); cin.ignore(10000, '\n'); choice_f = -1; }
-
-                switch (choice_f) {
-                case 1: {
-                    system("cls");
-                    cin.ignore(10000, '\n');
-                    Service* s = create_service_from_input();
-                    if (station.add_service_to_file(FILE_NAME, s))
-                        cout << "Услуга добавлена в файл.\n";
-                    else
-                        cout << "Ошибка добавления.\n";
-                    delete s;
-                    system("pause");
-                    break;
-                }
-
-                case 2: {
-                    system("cls");
-                    station.view_file(FILE_NAME);
-                    cout << "Номер услуги для удаления: ";
-                    int idx; cin >> idx;
-                    if (station.delete_service_from_file(FILE_NAME, idx - 1))
-                        cout << "Удалено.\n";
-                    else
-                        cout << "Ошибка удаления.\n";
-                    system("pause");
-                    break;
-                }
-
-                case 3: {
-                    system("cls");
-                    station.view_file(FILE_NAME);
-                    cout << "Номер услуги для редактирования: ";
-                    int idx; cin >> idx;
-                    cin.ignore(10000, '\n');
-                    Service* s = create_service_from_input();
-                    if (station.edit_service_in_file(FILE_NAME, idx - 1, s))
-                        cout << "Изменено.\n";
-                    else
-                        cout << "Ошибка.\n";
-                    delete s;
-                    system("pause");
-                    break;
-                }
-
-                case 4: {
-                    system("cls");
-                    station.view_file(FILE_NAME);
-                    system("pause");
-                    break;
-                }
-
-                case 5: {
-                    system("cls");
-                    cin.ignore(10000, '\n');
-                    string name;
-                    cout << "Введите название для поиска: ";
-                    getline(cin, name);
-                    station.search_in_file(FILE_NAME, name);
-                    system("pause");
-                    break;
-                }
-                }
-            } while (choice_f != 0);
-        }
-
         case 0: {
             system("cls");
-            if (station.save_all_to_file(FILE_NAME))
-                cout << "Данные сохранены в " << FILE_NAME << endl;
+            if (station.save_all_to_file(REPORT_FILE))
+                cout << "Отчёт сохранён в " << REPORT_FILE << endl;
             else
-                cout << "Ошибка сохранения.\n";
+                cout << "Ошибка сохранения отчёта.\n";
+
+            cout << "Файл данных: " << FILE_NAME << endl;
             break;
         }
 

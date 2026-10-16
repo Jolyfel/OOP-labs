@@ -128,6 +128,7 @@
   </ItemGroup>
   <ItemGroup>
     <Text Include="lab2_file.txt" />
+    <Text Include="lab2_report.txt" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="l2_class_header.h" />
