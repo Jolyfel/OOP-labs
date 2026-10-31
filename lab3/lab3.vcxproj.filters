@@ -28,6 +28,15 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
+    <Text Include="lab3_file_style.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="lab3_file_elem.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="lab3_file_window.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
     <Text Include="lab3_file.txt">
       <Filter>Resource Files</Filter>
     </Text>

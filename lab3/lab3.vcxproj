@@ -131,6 +131,9 @@
   </ItemGroup>
   <ItemGroup>
     <Text Include="lab3_file.txt" />
+    <Text Include="lab3_file_style.txt" />
+    <Text Include="lab3_file_elem.txt" />
+    <Text Include="lab3_file_window.txt" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram.cd" />

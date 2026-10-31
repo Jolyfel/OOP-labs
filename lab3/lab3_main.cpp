@@ -4,8 +4,6 @@
 #include <windows.h>
 #include "l3_class_header.h"
 
-#define FILE_NAME "lab3_file.txt"
-
 using namespace std;
 
 static string read_str(const string& prompt) {
@@ -161,7 +159,7 @@ int main() {
         case 2: windows_menu(m); break;
         case 3: styles_menu(m); break;
         case 4: m.print(cout, 4); break;
-        case 5: result(m.save_to_file(FILE_NAME, 4)); break;
+        case 5: result(m.save_to_file(read_str("Имя файла: "), 4)); break;
         case 0: break;
         default: cout << "Неверный пункт.\n";
         }
