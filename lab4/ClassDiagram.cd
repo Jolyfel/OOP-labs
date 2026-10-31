@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="BugTracker">
+    <Position X="0.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAACAAAgAABJIAABIEBABgABAAAAAwAgA=</HashCode>
+      <FileName>l4_class_header.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Struct Name="BugReport">
+    <Position X="2.5" Y="0.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAABAAAAAAIAAABAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>l4_class_header.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
