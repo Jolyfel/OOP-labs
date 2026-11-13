@@ -28,7 +28,7 @@ void BugTracker::rebuild() {
     bug_types_.clear();
     testers_by_element_.clear();
     type_log_.clear();
-    for (const auto& r : reports_) {
+    for (const std::pair<const std::string, BugReport>& r : reports_) {
         const string& tester = r.first;
         const BugReport& b = r.second;
         bugs_by_tester_[tester] += b.count;
@@ -57,13 +57,13 @@ bool BugTracker::remove_tester(const string& tester) {
 
 void BugTracker::print_ranking(ostream& os) const {
     multimap<int, string, greater<int>> ranking;
-    for (const auto& p : bugs_by_tester_) ranking.insert({ p.second, p.first });
+    for (const std::pair<const std::string, int>& p : bugs_by_tester_) ranking.insert({ p.second, p.first });
     if (ranking.empty()) {
         os << "(нет данных)\n";
         return;
     }
     int place = 1;
-    for (const auto& p : ranking)
+    for (const std::pair<const int, std::string>&  p : ranking)
         os << place++ << ". тестировщик " << p.second << " вы€вил "
         << p.first << " " << errors_word(p.first) << "\n";
 }
@@ -92,38 +92,38 @@ void BugTracker::print_element(ostream& os, const string& element) const {
     auto range = testers_by_element_.equal_range(element);
     for (auto i = range.first; i != range.second; ++i) testers.insert(i->second);
     os << "UI-элемент " << element << ": всего ошибок " << it->second << ", нашли:";
-    for (const auto& t : testers) os << " " << t;
+    for (const std::string& t : testers) os << " " << t;
     os << "\n";
 }
 
 void BugTracker::print_containers(ostream& os) const {
     os << "\n=== 1. map: тестировщик -> всего ошибок ===\n";
-    for (const auto& p : bugs_by_tester_) os << "  " << p.first << " -> " << p.second << "\n";
+    for (const std::pair<const std::string, int>& p : bugs_by_tester_) os << "  " << p.first << " -> " << p.second << "\n";
 
     os << "\n=== 2. set: UI-элементы ===\n";
-    for (const auto& e : ui_elements_) os << "  " << e << "\n";
+    for (const std::string& e : ui_elements_) os << "  " << e << "\n";
 
     os << "\n=== 3. multimap: тестировщик -> (элемент, тип, ошибок) ===\n";
-    for (const auto& r : reports_)
+    for (const std::pair<const std::string, BugReport>& r : reports_)
         os << "  " << r.first << " -> (" << r.second.element << ", "
         << r.second.type << ", " << r.second.count << ")\n";
 
     os << "\n=== 4. multiset: количество ошибок в отчЄтах ===\n";
-    for (auto it = report_counts_.begin(); it != report_counts_.end();
+    for (std::multiset<int>::const_iterator it = report_counts_.begin(); it != report_counts_.end();
         it = report_counts_.upper_bound(*it))
         os << "  " << *it << " (отчЄтов: " << report_counts_.count(*it) << ")\n";
 
     os << "\n=== 5. unordered_map: UI-элемент -> всего ошибок ===\n";
-    for (const auto& p : bugs_by_element_) os << "  " << p.first << " -> " << p.second << "\n";
+    for (const std::pair<const std::string, int>& p : bugs_by_element_) os << "  " << p.first << " -> " << p.second << "\n";
 
     os << "\n=== 6. unordered_set: типы ошибок ===\n";
-    for (const auto& t : bug_types_) os << "  " << t << "\n";
+    for (const std::string& t : bug_types_) os << "  " << t << "\n";
 
     os << "\n=== 7. unordered_multimap: UI-элемент -> тестировщик ===\n";
-    for (const auto& p : testers_by_element_) os << "  " << p.first << " -> " << p.second << "\n";
+    for (const std::pair<const std::string, std::string>& p : testers_by_element_) os << "  " << p.first << " -> " << p.second << "\n";
 
     os << "\n=== 8. unordered_multiset: частота типов ошибок ===\n";
-    for (const auto& t : bug_types_)
+    for (const std::string& t : bug_types_)
         os << "  " << t << ": " << type_log_.count(t) << "\n";
 }
 
