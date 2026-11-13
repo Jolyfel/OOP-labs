@@ -54,7 +54,7 @@ int main() {
         case 4: tracker.print_element(cout, read_str("Название UI-элемента: ")); break;
         case 5: show_result(tracker.remove_tester(read_str("Имя тестировщика: "))); break;
         case 6: tracker.print_containers(cout); break;
-        case 7: show_result(tracker.save_to_file(FILE_NAME)); break;
+        case 7: show_result(tracker.save_to_file(read_str("Название файла: "))); break;
         case 0: break;
         default: cout << "Неверный пункт.\n";
         }

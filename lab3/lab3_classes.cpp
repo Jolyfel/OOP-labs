@@ -69,7 +69,7 @@ bool Window::add(const shared_ptr<UIElement>& e) {
     return true;
 }
 bool Window::remove(int id) {
-    auto it = find_if(elements_.begin(), elements_.end(),
+    std::vector<std::shared_ptr<UIElement>>::iterator it = find_if(elements_.begin(), elements_.end(),
         [id](const shared_ptr<UIElement>& e) { return e->id() == id; });
     if (it == elements_.end()) return false;
     elements_.erase(it);
@@ -77,15 +77,15 @@ bool Window::remove(int id) {
 }
 
 shared_ptr<UIElement> UIManager::find_by_id(int id) const {
-    for (const auto& e : elements_) if (e->id() == id) return e;
+    for (const std::shared_ptr<UIElement>& e : elements_) if (e->id() == id) return e;
     return nullptr;
 }
 Window* UIManager::find_window(const string& name) {
-    for (auto& w : windows_) if (w.name() == name) return &w;
+    for (Window& w : windows_) if (w.name() == name) return &w;
     return nullptr;
 }
 Style UIManager::style_by_name(const string& name) const {
-    for (const auto& s : styles_) if (!s.empty() && s.name() == name) return s;
+    for (const Style& s : styles_) if (!s.empty() && s.name() == name) return s;
     return Style("Default");
 }
 
@@ -115,17 +115,17 @@ bool UIManager::add_element(int type, const string& name, int w, int h,
 }
 
 bool UIManager::remove_element(int id) {
-    auto it = find_if(elements_.begin(), elements_.end(),
+    std::vector<std::shared_ptr<UIElement>>::iterator it = find_if(elements_.begin(), elements_.end(),
         [id](const shared_ptr<UIElement>& e) { return e->id() == id; });
     if (it == elements_.end()) return false;
-    for (auto& w : windows_) w.remove(id);
+    for (Window& w : windows_) w.remove(id);
     elements_.erase(it);
     return true;
 }
 
 bool UIManager::edit_element(int id, const string& name, int w, int h,
     const string& extra, const string& styleName) {
-    auto e = find_by_id(id);
+    std::shared_ptr<UIElement> e = find_by_id(id);
     if (!e) return false;
     e->set_name(name);
     e->set_size(w, h);
@@ -136,18 +136,18 @@ bool UIManager::edit_element(int id, const string& name, int w, int h,
 
 vector<shared_ptr<UIElement>> UIManager::find_elements(const string& part) const {
     vector<shared_ptr<UIElement>> r;
-    for (const auto& e : elements_) if (has(e->name(), part)) r.push_back(e);
+    for (const std::shared_ptr<UIElement>& e : elements_) if (has(e->name(), part)) r.push_back(e);
     return r;
 }
 
 vector<shared_ptr<UIElement>> UIManager::filter_by_type(int type) const {
     vector<shared_ptr<UIElement>> r;
-    for (const auto& e : elements_) if (e->type() == type_name(type)) r.push_back(e);
+    for (const std::shared_ptr<UIElement>& e : elements_) if (e->type() == type_name(type)) r.push_back(e);
     return r;
 }
 
 vector<shared_ptr<UIElement>> UIManager::filter_by_window(const string& window) const {
-    for (const auto& w : windows_) if (w.name() == window) return w.elements();
+    for (const Window& w : windows_) if (w.name() == window) return w.elements();
     return {};
 }
 
@@ -166,7 +166,7 @@ void UIManager::sort_elements(int key) {
 void UIManager::print_element_table(ostream& os, const vector<shared_ptr<UIElement>>& v) {
     os << pad("ID", 5) << pad("Тип", 11) << pad("Название", 16) << pad("Размер", 11)
         << pad("Стиль", 24) << "Текст/подсказка\n" << string(85, '-') << '\n';
-    for (const auto& e : v) {
+    for (const std::shared_ptr<UIElement>& e : v) {
         const Style& s = e->style();
         os << pad(to_string(e->id()), 5) << pad(e->type(), 11) << pad(e->name(), 16)
             << pad(to_string(e->width()) + "x" + to_string(e->height()), 11)
@@ -183,7 +183,7 @@ bool UIManager::add_window(const string& name, const string& title) {
 }
 
 bool UIManager::remove_window(const string& name) {
-    auto it = find_if(windows_.begin(), windows_.end(),
+    std::list<Window>::iterator it = find_if(windows_.begin(), windows_.end(),
         [&](const Window& w) { return w.name() == name; });
     if (it == windows_.end()) return false;
     windows_.erase(it);
@@ -200,7 +200,7 @@ bool UIManager::edit_window(const string& name, const string& newName, const str
 
 bool UIManager::attach(const string& window, int elementId) {
     Window* w = find_window(window);
-    auto e = find_by_id(elementId);
+    std::shared_ptr<UIElement> e = find_by_id(elementId);
     return w && e && w->add(e);
 }
 
@@ -219,11 +219,11 @@ void UIManager::print_windows(ostream& os, const string& filter) const {
     os << pad("Имя", 16) << pad("Заголовок", 22) << pad("Кол-во", 8) << "ID элементов\n"
         << string(70, '-') << '\n';
     bool any = false;
-    for (const auto& w : windows_) {
+    for (const Window& w : windows_) {
         if (!has(w.name(), filter)) continue;
         any = true;
         string ids;
-        for (const auto& e : w.elements()) ids += to_string(e->id()) + " ";
+        for (const std::shared_ptr<UIElement>& e : w.elements()) ids += to_string(e->id()) + " ";
         os << pad(w.name(), 16) << pad(w.title(), 22)
             << pad(to_string(w.elements().size()), 8) << ids << '\n';
     }
@@ -232,8 +232,8 @@ void UIManager::print_windows(ostream& os, const string& filter) const {
 
 bool UIManager::add_style(const string& name, const string& color, int size) {
     if (name.empty() || size <= 0) return false;
-    for (const auto& s : styles_) if (s.name() == name) return false;
-    for (auto& s : styles_)
+    for (const Style& s : styles_) if (s.name() == name) return false;
+    for (Style& s : styles_)
         if (s.empty()) { s = Style(name, color.empty() ? "black" : color, size); return true; }
     return false;
 }

@@ -1,0 +1,50 @@
+=== –≈…“»Ќ√ “≈—“»–ќ¬ў» ќ¬ ===
+1. тестировщик Angel вы€вил 10 ошибок
+2. тестировщик Dia вы€вил 6 ошибок
+3. тестировщик Lewis вы€вил 4 ошибки
+4. тестировщик Max вы€вил 3 ошибки
+
+=== 1. map: тестировщик -> всего ошибок ===
+  Angel -> 10
+  Dia -> 6
+  Lewis -> 4
+  Max -> 3
+
+=== 2. set: UI-элементы ===
+  Button
+  Label
+  TextField
+
+=== 3. multimap: тестировщик -> (элемент, тип, ошибок) ===
+  Angel -> (Button, layout, 6)
+  Angel -> (TextField, crash, 4)
+  Dia -> (Label, color, 6)
+  Lewis -> (Button, color, 4)
+  Max -> (Button, crash, 3)
+
+=== 4. multiset: количество ошибок в отчЄтах ===
+  3 (отчЄтов: 1)
+  4 (отчЄтов: 2)
+  6 (отчЄтов: 2)
+
+=== 5. unordered_map: UI-элемент -> всего ошибок ===
+  Button -> 13
+  TextField -> 4
+  Label -> 6
+
+=== 6. unordered_set: типы ошибок ===
+  layout
+  color
+  crash
+
+=== 7. unordered_multimap: UI-элемент -> тестировщик ===
+  Button -> Angel
+  Button -> Lewis
+  Button -> Max
+  TextField -> Angel
+  Label -> Dia
+
+=== 8. unordered_multiset: частота типов ошибок ===
+  layout: 1
+  color: 2
+  crash: 2
